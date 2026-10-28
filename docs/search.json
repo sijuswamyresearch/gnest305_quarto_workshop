@@ -324,11 +324,23 @@
     ]
   },
   {
+    "objectID": "module2-linear-algebra.html#link-to-practice-sheet-1",
+    "href": "module2-linear-algebra.html#link-to-practice-sheet-1",
+    "title": "Day 1, Session 2: Mathematical Foundations — Linear Algebra, SVD & PCA",
+    "section": "6 Link to practice sheet-1",
+    "text": "6 Link to practice sheet-1",
+    "crumbs": [
+      "Overview & Schedule",
+      "Day 1: Foundations & Representation (4.5 Hrs)",
+      "Day 1, Session 2: Mathematical Foundations — Linear Algebra, SVD & PCA"
+    ]
+  },
+  {
     "objectID": "module2-linear-algebra.html#engineering-practice-compressing-4d-motor-telemetry-into-a-2d-health-map",
     "href": "module2-linear-algebra.html#engineering-practice-compressing-4d-motor-telemetry-into-a-2d-health-map",
     "title": "Day 1, Session 2: Mathematical Foundations — Linear Algebra, SVD & PCA",
-    "section": "6 5. Engineering Practice: Compressing 4D Motor Telemetry into a 2D Health Map",
-    "text": "6 5. Engineering Practice: Compressing 4D Motor Telemetry into a 2D Health Map\n\n\n\n\n\n\nHands-On Engineering Challenge (Module 2 Application)\n\n\n\nIn industrial IoT monitoring, operators want a single 2D Control Room Health Map that summarizes all 4 correlated sensors (vibration, temperature, current, acoustic) while preserving \\(&gt;90\\%\\) of the signal variance.\n\nRun the code below to compute the SVD and PCA of the 4-channel Motor Sensor Matrix.\nInspect the eigenvector loadings \\(V_{:, 1:2}\\): which physical sensors dominate PC1 vs PC2?\nExperiment: Change k = 1, 2, or 3 in the low-rank SVD reconstruction \\(\\hat{X}_k = U_{:,:k} S_{:k,:k} V_{:,:k}^T\\) and observe how fast the reconstruction error drops!",
+    "section": "7 5. Engineering Practice: Compressing 4D Motor Telemetry into a 2D Health Map",
+    "text": "7 5. Engineering Practice: Compressing 4D Motor Telemetry into a 2D Health Map\n\n\n\n\n\n\nHands-On Engineering Challenge (Module 2 Application)\n\n\n\nIn industrial IoT monitoring, operators want a single 2D Control Room Health Map that summarizes all 4 correlated sensors (vibration, temperature, current, acoustic) while preserving \\(&gt;90\\%\\) of the signal variance.\n\nRun the code below to compute the SVD and PCA of the 4-channel Motor Sensor Matrix.\nInspect the eigenvector loadings \\(V_{:, 1:2}\\): which physical sensors dominate PC1 vs PC2?\nExperiment: Change k = 1, 2, or 3 in the low-rank SVD reconstruction \\(\\hat{X}_k = U_{:,:k} S_{:k,:k} V_{:,:k}^T\\) and observe how fast the reconstruction error drops!\n\n\n\n\n\n\n\n\n\n\n\nlink to additional sources for Linear Algebra for AI & Data science",
     "crumbs": [
       "Overview & Schedule",
       "Day 1: Foundations & Representation (4.5 Hrs)",
@@ -384,11 +396,23 @@
     ]
   },
   {
+    "objectID": "module4-datascience.html#link-to-practice-sheet-1",
+    "href": "module4-datascience.html#link-to-practice-sheet-1",
+    "title": "Day 1, Session 1: The Data Science Process & Exploration",
+    "section": "4 Link to practice sheet-1",
+    "text": "4 Link to practice sheet-1",
+    "crumbs": [
+      "Overview & Schedule",
+      "Day 1: Foundations & Representation (4.5 Hrs)",
+      "Day 1, Session 1: The Data Science Process & Exploration"
+    ]
+  },
+  {
     "objectID": "module4-datascience.html#the-data-science-modelling-process-traintest-split-baseline",
     "href": "module4-datascience.html#the-data-science-modelling-process-traintest-split-baseline",
     "title": "Day 1, Session 1: The Data Science Process & Exploration",
-    "section": "4 3. The Data Science Modelling Process: Train/Test Split & Baseline",
-    "text": "4 3. The Data Science Modelling Process: Train/Test Split & Baseline\nIn Step 5 (Data Modeling), we never evaluate a model on the exact same data used to fit its parameters—doing so causes overfitting (memorizing noise). Instead, we split \\((X, y)\\) into \\((X_{\\text{train}}, y_{\\text{train}})\\) and \\((X_{\\text{test}}, y_{\\text{test}})\\).\nLet’s build a complete end-to-end Data Science Baseline Pipeline on Iris using a simple Decision Tree / Nearest Centroid baseline to demonstrate the modeling workflow before diving into the deep math in Sessions 2–4:",
+    "section": "5 3. The Data Science Modelling Process: Train/Test Split & Baseline",
+    "text": "5 3. The Data Science Modelling Process: Train/Test Split & Baseline\nIn Step 5 (Data Modeling), we never evaluate a model on the exact same data used to fit its parameters—doing so causes overfitting (memorizing noise). Instead, we split \\((X, y)\\) into \\((X_{\\text{train}}, y_{\\text{train}})\\) and \\((X_{\\text{test}}, y_{\\text{test}})\\).\nLet’s build a complete end-to-end Data Science Baseline Pipeline on Iris using a simple Decision Tree / Nearest Centroid baseline to demonstrate the modeling workflow before diving into the deep math in Sessions 2–4:",
     "crumbs": [
       "Overview & Schedule",
       "Day 1: Foundations & Representation (4.5 Hrs)",
@@ -399,8 +423,8 @@
     "objectID": "module4-datascience.html#engineering-practice-predictive-maintenance-sensor-pipeline",
     "href": "module4-datascience.html#engineering-practice-predictive-maintenance-sensor-pipeline",
     "title": "Day 1, Session 1: The Data Science Process & Exploration",
-    "section": "5 4. Engineering Practice: Predictive Maintenance Sensor Pipeline",
-    "text": "5 4. Engineering Practice: Predictive Maintenance Sensor Pipeline\n\n\n\n\n\n\nHands-On Engineering Challenge (Module 4 Application)\n\n\n\nAn industrial plant logs 4 telemetry streams from 150 induction motors: vibration_mm_s (mm/s RMS), temp_c (°C), current_amp (Amps), and acoustic_db (dB). However, real sensor logs contain missing values (NaN) and wildly different units (2–8 mm/s vs 50–100 °C).\n\nRun the code below to impute missing sensor readings using the median, standardize the 4 sensor channels, and visualize the Vibration vs. Temperature operating regimes (Normal, Bearing_Wear, Overheating_Fault).\nExperiment: Change test_size=0.30 or try classifying using only the first 2 sensors (X_motor_scaled[:, :2]) to see how sensor selection impacts diagnostic accuracy!",
+    "section": "6 4. Engineering Practice: Predictive Maintenance Sensor Pipeline",
+    "text": "6 4. Engineering Practice: Predictive Maintenance Sensor Pipeline\n\n\n\n\n\n\nHands-On Engineering Challenge (Module 4 Application)\n\n\n\nAn industrial plant logs 4 telemetry streams from 150 induction motors: vibration_mm_s (mm/s RMS), temp_c (°C), current_amp (Amps), and acoustic_db (dB). However, real sensor logs contain missing values (NaN) and wildly different units (2–8 mm/s vs 50–100 °C).\n\nRun the code below to impute missing sensor readings using the median, standardize the 4 sensor channels, and visualize the Vibration vs. Temperature operating regimes (Normal, Bearing_Wear, Overheating_Fault).\nExperiment: Change test_size=0.30 or try classifying using only the first 2 sensors (X_motor_scaled[:, :2]) to see how sensor selection impacts diagnostic accuracy!",
     "crumbs": [
       "Overview & Schedule",
       "Day 1: Foundations & Representation (4.5 Hrs)",

@@ -170,6 +170,7 @@ plt.tight_layout()
 plt.show()
 ```
 
+[Link to practice sheet-1](https://colab.research.google.com/drive/17PJdnY0UE6XL4sLUf1DiqknsTZwSPk7L?usp=sharing)
 ---
 
 ## 5. Engineering Practice: Compressing 4D Motor Telemetry into a 2D Health Map
@@ -234,3 +235,5 @@ plt.grid(True, alpha=0.3)
 plt.tight_layout()
 plt.show()
 ```
+
+[link to additional sources for Linear Algebra for AI & Data science](https://sijuswamy.github.io/ks_siju_CB.AI.R4CEN24003_Computational-Mathematics-for-DataScience/)

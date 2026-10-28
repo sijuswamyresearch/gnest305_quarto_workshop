@@ -102,6 +102,7 @@ plt.tight_layout()
 plt.show()
 ```
 
+[Link to practice sheet-1](https://colab.research.google.com/drive/1iM3_TgaSnfrG3brjW0IMg8TpkcwWenxS?usp=sharing)
 ---
 
 ## 3. The Data Science Modelling Process: Train/Test Split & Baseline
