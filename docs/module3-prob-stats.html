@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.31">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Day 2, Session 3: Applied Probability &amp; Statistical Estimation – GNEST305: Math &amp; Code for AI &amp; Data Science</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-3c474f14b54cff5172cf06f54e8acdc0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-contrib/live-runtime/live-runtime.js" type="module"></script>
+<link href="site_libs/quarto-contrib/live-runtime/live-runtime.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script type="module" src="site_libs/quarto-ojs/quarto-ojs-runtime.js"></script>
+<link href="site_libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">GNEST305: Math &amp; Code for AI &amp; Data Science</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="./index.html" aria-current="page"> 
+<span class="menu-text">Overview &amp; Schedule</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-day-1" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Day 1</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-day-1">    
+        <li>
+    <a class="dropdown-item" href="./module4-datascience.html">
+ <span class="dropdown-text">Session 1: Data Science Process (Module 4)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./module2-linear-algebra.html">
+ <span class="dropdown-text">Session 2: Linear Algebra, SVD &amp; PCA (Module 2)</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-day-2" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Day 2</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-day-2">    
+        <li>
+    <a class="dropdown-item" href="./module3-prob-stats.html">
+ <span class="dropdown-text">Session 3: Probability, MLE, Bayes &amp; OLS (Module 3)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./module1-ml-ann.html">
+ <span class="dropdown-text">Session 4: ML, Clustering &amp; Deep Neural Nets (Module 1)</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./practice-predictive-maintenance.html"> 
+<span class="menu-text">Practice Lab</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./module3-prob-stats.html">Day 2: Statistical Inference &amp; Learning (4.5 Hrs)</a></li><li class="breadcrumb-item"><a href="./module3-prob-stats.html">Day 2, Session 3: Applied Probability &amp; Statistical Estimation</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Workshop Overview</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">GNEST305: Introduction to AI &amp; Data Science</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Day 1: Foundations &amp; Representation (4.5 Hrs)</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./module4-datascience.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Day 1, Session 1: The Data Science Process &amp; Exploration</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./module2-linear-algebra.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Day 1, Session 2: Mathematical Foundations — Linear Algebra, SVD &amp; PCA</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Day 2: Statistical Inference &amp; Learning (4.5 Hrs)</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./module3-prob-stats.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Day 2, Session 3: Applied Probability &amp; Statistical Estimation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./module1-ml-ann.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Day 2, Session 4: Machine Learning Systems &amp; Deep Neural Networks</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Capstone Engineering Lab</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./practice-predictive-maintenance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Capstone Engineering Lab: End-to-End Predictive Maintenance</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#why-probability-statistics-power-ai-under-uncertainty" id="toc-why-probability-statistics-power-ai-under-uncertainty" class="nav-link active" data-scroll-target="#why-probability-statistics-power-ai-under-uncertainty"><span class="header-section-number">1</span> Why Probability &amp; Statistics Power AI Under Uncertainty</a></li>
+  <li><a href="#random-variables-statistical-summaries-maximum-likelihood-estimation-mle" id="toc-random-variables-statistical-summaries-maximum-likelihood-estimation-mle" class="nav-link" data-scroll-target="#random-variables-statistical-summaries-maximum-likelihood-estimation-mle"><span class="header-section-number">2</span> 1. Random Variables, Statistical Summaries &amp; Maximum Likelihood Estimation (MLE)</a></li>
+  <li><a href="#bayes-theorem-and-its-ai-application-gaussian-naive-bayes" id="toc-bayes-theorem-and-its-ai-application-gaussian-naive-bayes" class="nav-link" data-scroll-target="#bayes-theorem-and-its-ai-application-gaussian-naive-bayes"><span class="header-section-number">3</span> 2. Bayes’ Theorem and Its AI Application: Gaussian Naive Bayes</a></li>
+  <li><a href="#linear-correlation-r-least-squares-linear-regression-ols" id="toc-linear-correlation-r-least-squares-linear-regression-ols" class="nav-link" data-scroll-target="#linear-correlation-r-least-squares-linear-regression-ols"><span class="header-section-number">4</span> 3. Linear Correlation (<span class="math inline">\(r\)</span>) &amp; Least Squares Linear Regression (OLS)</a></li>
+  <li><a href="#engineering-practice-bayesian-fault-diagnosis-sensor-regression" id="toc-engineering-practice-bayesian-fault-diagnosis-sensor-regression" class="nav-link" data-scroll-target="#engineering-practice-bayesian-fault-diagnosis-sensor-regression"><span class="header-section-number">5</span> 4. Engineering Practice: Bayesian Fault Diagnosis &amp; Sensor Regression</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./module3-prob-stats.html">Day 2: Statistical Inference &amp; Learning (4.5 Hrs)</a></li><li class="breadcrumb-item"><a href="./module3-prob-stats.html">Day 2, Session 3: Applied Probability &amp; Statistical Estimation</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Day 2, Session 3: Applied Probability &amp; Statistical Estimation</h1>
+<p class="subtitle lead">GNEST305 Module 3 — Random Variables, MLE, Bayes’ Theorem, Correlation &amp; Least Squares Regression (2.25 Hours)</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="why-probability-statistics-power-ai-under-uncertainty" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="why-probability-statistics-power-ai-under-uncertainty"><span class="header-section-number">1</span> Why Probability &amp; Statistics Power AI Under Uncertainty</h2>
+<p>Real-world measurements—whether flower petals or motor vibration sensors—contain randomness and measurement noise. <strong>Module 3</strong> (Text-4: Gupta &amp; Kapoor, <em>Fundamentals of Mathematical Statistics</em>) gives us the mathematical tools to <strong>estimate distribution parameters</strong>, <strong>update beliefs using Bayes’ Theorem</strong>, and <strong>predict continuous outcomes via Least Squares Regression</strong>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+GNEST305 Module 3 Syllabus Checklist
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Basics of Probability:</strong> Random variables (discrete &amp; continuous), expectation <span class="math inline">\(E[X]\)</span>, variance <span class="math inline">\(\text{Var}(X)\)</span>, statistical measures &amp; summaries</li>
+<li><strong>Rules in Probability:</strong> Sum rule, product rule, conditional probability <span class="math inline">\(P(A|B)\)</span>, and <strong>Bayes’ Theorem and its Applications</strong></li>
+<li><strong>Statistical Estimation:</strong> <strong>Maximum Likelihood Estimator (MLE)</strong></li>
+<li><strong>Correlation Analysis:</strong> Linear correlation (Pearson’s <span class="math inline">\(r\)</span>, direct problems)</li>
+<li><strong>Regression Analysis:</strong> Linear regression using the <strong>Method of Least Squares (OLS)</strong></li>
+</ul>
+</div>
+</div>
+<hr>
+</section>
+<section id="random-variables-statistical-summaries-maximum-likelihood-estimation-mle" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="random-variables-statistical-summaries-maximum-likelihood-estimation-mle"><span class="header-section-number">2</span> 1. Random Variables, Statistical Summaries &amp; Maximum Likelihood Estimation (MLE)</h2>
+<p>Suppose we model a continuous feature <span class="math inline">\(X\)</span> (such as Iris <code>petal_length</code> within a species) as a <strong>Gaussian (Normal) Random Variable</strong> <span class="math inline">\(X \sim \mathcal{N}(\mu, \sigma^2)\)</span> with probability density function (PDF):</p>
+<p><span class="math display">\[f(x \mid \mu, \sigma^2) = \frac{1}{\sqrt{2\pi \sigma^2}} \exp\left(-\frac{(x - \mu)^2}{2\sigma^2}\right)\]</span></p>
+<p>Given <span class="math inline">\(n\)</span> independent and identically distributed (i.i.d.) observations <span class="math inline">\(\{x_1, x_2, \dots, x_n\}\)</span>, how do we estimate the unknown parameters <span class="math inline">\(\theta = (\mu, \sigma^2)\)</span>?</p>
+<div class="math-box">
+<p><strong>Maximum Likelihood Estimation (MLE):</strong> We write the <strong>Likelihood Function</strong> <span class="math inline">\(L(\mu, \sigma^2) = \prod_{i=1}^n f(x_i \mid \mu, \sigma^2)\)</span> and maximize its natural logarithm, the <strong>Log-Likelihood</strong> <span class="math inline">\(\ell(\mu, \sigma^2) = \ln L(\mu, \sigma^2)\)</span>:</p>
+<p><span class="math display">\[\ell(\mu, \sigma^2) = -\frac{n}{2}\ln(2\pi) - \frac{n}{2}\ln(\sigma^2) - \frac{1}{2\sigma^2}\sum_{i=1}^n (x_i - \mu)^2\]</span></p>
+<p>Setting the partial derivatives <span class="math inline">\(\frac{\partial \ell}{\partial \mu} = 0\)</span> and <span class="math inline">\(\frac{\partial \ell}{\partial (\sigma^2)} = 0\)</span> yields the closed-form <strong>MLE Estimators</strong>:</p>
+<p><span class="math display">\[\hat{\mu}_{\text{MLE}} = \frac{1}{n}\sum_{i=1}^n x_i, \qquad \hat{\sigma}^2_{\text{MLE}} = \frac{1}{n}\sum_{i=1}^n (x_i - \hat{\mu}_{\text{MLE}})^2\]</span></p>
+</div>
+<p>Let’s verify this both analytically and by plotting the <strong>Log-Likelihood surface</strong> on the Iris dataset!</p>
+<div class="cell">
+<div>
+<div id="pyodide-1" class="exercise-cell">
+
+</div>
+<script type="pyodide-1-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IG51bXB5IGFzIG5wXG5pbXBvcnQgcGFuZGFzIGFzIHBkXG5pbXBvcnQgbWF0cGxvdGxpYi5weXBsb3QgYXMgcGx0XG5mcm9tIHNjaXB5LnN0YXRzIGltcG9ydCBub3JtXG5mcm9tIHNrbGVhcm4uZGF0YXNldHMgaW1wb3J0IGxvYWRfaXJpc1xuXG5pcmlzID0gbG9hZF9pcmlzKClcblggPSBpcmlzLmRhdGFcbnkgPSBpcmlzLnRhcmdldFxuXG4jIENvbXB1dGUgTUxFIHBhcmFtZXRlcnMgKG11X2hhdCwgc2lnbWFfaGF0KSBmb3IgUGV0YWwgTGVuZ3RoIChjb2x1bW4gMikgcGVyIHNwZWNpZXNcbm1sZV9yb3dzID0gW11cbmZvciBpZHgsIHNwIGluIGVudW1lcmF0ZShpcmlzLnRhcmdldF9uYW1lcyk6XG4gICAgeF9zcCA9IFhbeSA9PSBpZHgsIDJdICAjIFBldGFsIGxlbmd0aCBmb3Igc3BlY2llcyBpZHhcbiAgICBtdV9tbGUgPSBucC5tZWFuKHhfc3ApXG4gICAgdmFyX21sZSA9IG5wLm1lYW4oKHhfc3AgLSBtdV9tbGUpKioyKSAgIyAxL24gZGl2aXNvciBmb3IgZXhhY3QgTUxFXG4gICAgc3RkX21sZSA9IG5wLnNxcnQodmFyX21sZSlcbiAgICBtbGVfcm93cy5hcHBlbmQoeydTcGVjaWVzJzogc3AuY2FwaXRhbGl6ZSgpLCAnbic6IGxlbih4X3NwKSwgJ211X01MRSAoY20pJzogcm91bmQobXVfbWxlLCAzKSwgJ3Zhcl9NTEUnOiByb3VuZCh2YXJfbWxlLCA0KSwgJ3N0ZF9NTEUnOiByb3VuZChzdGRfbWxlLCAzKX0pXG5cbnByaW50KFwiPT09IEdhdXNzaWFuIE1heGltdW0gTGlrZWxpaG9vZCBFc3RpbWF0ZXMgKFBldGFsIExlbmd0aCBieSBTcGVjaWVzKSA9PT1cIilcbnByaW50KHBkLkRhdGFGcmFtZShtbGVfcm93cykudG9fc3RyaW5nKGluZGV4PUZhbHNlKSlcblxuIyBQbG90IGZpdHRlZCBHYXVzc2lhbiBQREZzIGFuZCB0aGUgTG9nLUxpa2VsaWhvb2QgY3VydmUgZm9yIFZpcmdpbmljYVxuZmlnLCBheGVzID0gcGx0LnN1YnBsb3RzKDEsIDIsIGZpZ3NpemU9KDExLCA0LjIpKVxueF9ncmlkID0gbnAubGluc3BhY2UoMC41LCA3LjUsIDMwMClcbmNvbG9ycyA9IFsnIzI1NjNlYicsICcjMGQ5NDg4JywgJyNlYTU4MGMnXVxuXG5mb3IgaWR4LCBzcCBpbiBlbnVtZXJhdGUoaXJpcy50YXJnZXRfbmFtZXMpOlxuICAgIHhfc3AgPSBYW3kgPT0gaWR4LCAyXVxuICAgIG11X2hhdCwgc3RkX2hhdCA9IG5wLm1lYW4oeF9zcCksIG5wLnN0ZCh4X3NwKVxuICAgIGF4ZXNbMF0uaGlzdCh4X3NwLCBiaW5zPTEwLCBkZW5zaXR5PVRydWUsIGFscGhhPTAuMzUsIGNvbG9yPWNvbG9yc1tpZHhdKVxuICAgIGF4ZXNbMF0ucGxvdCh4X2dyaWQsIG5vcm0ucGRmKHhfZ3JpZCwgbXVfaGF0LCBzdGRfaGF0KSwgY29sb3I9Y29sb3JzW2lkeF0sIGx3PTIuNSwgbGFiZWw9Zlwie3NwLmNhcGl0YWxpemUoKX0gKM68PXttdV9oYXQ6LjJmfSlcIilcblxuYXhlc1swXS5zZXRfdGl0bGUoXCJNTEUgRml0dGVkIEdhdXNzaWFuIERlbnNpdGllczogUChQZXRhbCBMZW5ndGggfCBTcGVjaWVzKVwiKVxuYXhlc1swXS5zZXRfeGxhYmVsKFwiUGV0YWwgTGVuZ3RoIChjbSlcIilcbmF4ZXNbMF0uc2V0X3lsYWJlbChcIlByb2JhYmlsaXR5IERlbnNpdHkgZih4KVwiKVxuYXhlc1swXS5sZWdlbmQoKVxuYXhlc1swXS5ncmlkKFRydWUsIGFscGhhPTAuMylcblxuIyBSaWdodCBwbG90OiBMb2ctTGlrZWxpaG9vZCBmdW5jdGlvbiBsKG11KSBmb3IgVmVyc2ljb2xvciBQZXRhbCBMZW5ndGhcbnhfdmVyc2kgPSBYW3kgPT0gMSwgMl1cbnNpZ21hX2ZpeGVkID0gbnAuc3RkKHhfdmVyc2kpXG5tdV9jYW5kaWRhdGVzID0gbnAubGluc3BhY2UoMy41LCA1LjAsIDIwMClcbmxvZ19saWtzID0gW25wLnN1bShub3JtLmxvZ3BkZih4X3ZlcnNpLCBsb2M9bSwgc2NhbGU9c2lnbWFfZml4ZWQpKSBmb3IgbSBpbiBtdV9jYW5kaWRhdGVzXVxubXVfc3RhciA9IG5wLm1lYW4oeF92ZXJzaSlcblxuYXhlc1sxXS5wbG90KG11X2NhbmRpZGF0ZXMsIGxvZ19saWtzLCBjb2xvcj0nIzBkOTQ4OCcsIGx3PTIuNSlcbmF4ZXNbMV0uYXh2bGluZShtdV9zdGFyLCBjb2xvcj0nI2RjMjYyNicsIGxpbmVzdHlsZT0nLS0nLCBsdz0yLCBsYWJlbD1mXCJNTEUgUGVhayDOvMyCID0ge211X3N0YXI6LjNmfSBjbVwiKVxuYXhlc1sxXS5zZXRfdGl0bGUoXCJMb2ctTGlrZWxpaG9vZCBDdXJ2ZSDihJMozrwpIGZvciBWZXJzaWNvbG9yXCIpXG5heGVzWzFdLnNldF94bGFiZWwoXCJDYW5kaWRhdGUgTWVhbiBQYXJhbWV0ZXIgzrwgKGNtKVwiKVxuYXhlc1sxXS5zZXRfeWxhYmVsKFwiTG9nLUxpa2VsaWhvb2Qg4oSTKM68KVwiKVxuYXhlc1sxXS5sZWdlbmQoKVxuYXhlc1sxXS5ncmlkKFRydWUsIGFscGhhPTAuMylcblxucGx0LnRpZ2h0X2xheW91dCgpXG5wbHQuc2hvdygpIn0=
+</script>
+</div>
+</div>
+<hr>
+</section>
+<section id="bayes-theorem-and-its-ai-application-gaussian-naive-bayes" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="bayes-theorem-and-its-ai-application-gaussian-naive-bayes"><span class="header-section-number">3</span> 2. Bayes’ Theorem and Its AI Application: Gaussian Naive Bayes</h2>
+<p>Once we have estimated the class-conditional likelihoods <span class="math inline">\(P(X \mid C_k)\)</span> via MLE, how do we flip the conditioning to predict the <strong>posterior probability of class <span class="math inline">\(C_k\)</span> given a new measurement <span class="math inline">\(x\)</span></strong>? We apply <strong>Bayes’ Theorem</strong>:</p>
+<p><span class="math display">\[P(C_k \mid x) = \frac{P(x \mid C_k) \, P(C_k)}{P(x)} = \frac{P(x \mid C_k) \, P(C_k)}{\sum_{j=1}^K P(x \mid C_j) \, P(C_j)}\]</span></p>
+<ul>
+<li><strong>Prior <span class="math inline">\(P(C_k)\)</span>:</strong> Base rate of class <span class="math inline">\(k\)</span> before seeing the features (<span class="math inline">\(1/3\)</span> each in Iris).</li>
+<li><strong>Likelihood <span class="math inline">\(P(x \mid C_k)\)</span>:</strong> Evaluated from our MLE Gaussian density <span class="math inline">\(\prod_{j=1}^d \mathcal{N}(x_j \mid \hat{\mu}_{kj}, \hat{\sigma}^2_{kj})\)</span>.</li>
+<li><strong>Posterior <span class="math inline">\(P(C_k \mid x)\)</span>:</strong> Exact probability that flower <span class="math inline">\(x\)</span> belongs to species <span class="math inline">\(C_k\)</span>!</li>
+</ul>
+<p>Let’s compute the exact Bayesian posterior probabilities for a mystery flower with <code>petal_length = 4.8 cm</code>:</p>
+<div class="cell">
+<div>
+<div id="pyodide-2" class="exercise-cell">
+
+</div>
+<script type="pyodide-2-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBNeXN0ZXJ5IGZsb3dlciBoYXMgUGV0YWwgTGVuZ3RoIHhfb2JzID0gNC44IGNtXG54X29icyA9IDQuOFxucHJpb3JzID0gWzEvMywgMS8zLCAxLzNdXG5saWtlbGlob29kcyA9IFtdXG5cbmZvciBpZHggaW4gcmFuZ2UoMyk6XG4gICAgeF9zcCA9IFhbeSA9PSBpZHgsIDJdXG4gICAgbXVfaGF0LCBzdGRfaGF0ID0gbnAubWVhbih4X3NwKSwgbnAuc3RkKHhfc3ApXG4gICAgbGlrZWxpaG9vZHMuYXBwZW5kKG5vcm0ucGRmKHhfb2JzLCBsb2M9bXVfaGF0LCBzY2FsZT1zdGRfaGF0KSlcblxubGlrZWxpaG9vZHMgPSBucC5hcnJheShsaWtlbGlob29kcylcbnVubm9ybWFsaXplZF9wb3N0ID0gbGlrZWxpaG9vZHMgKiBwcmlvcnNcbnBvc3RlcmlvcnMgPSB1bm5vcm1hbGl6ZWRfcG9zdCAvIG5wLnN1bSh1bm5vcm1hbGl6ZWRfcG9zdClcblxuYmF5ZXNfZGYgPSBwZC5EYXRhRnJhbWUoe1xuICAgICdDbGFzcyAoU3BlY2llcyknOiBbcy5jYXBpdGFsaXplKCkgZm9yIHMgaW4gaXJpcy50YXJnZXRfbmFtZXNdLFxuICAgICdQcmlvciBQKENfayknOiBucC5yb3VuZChwcmlvcnMsIDMpLFxuICAgICdMaWtlbGlob29kIFAoeD00LjggfCBDX2spJzogbnAucm91bmQobGlrZWxpaG9vZHMsIDQpLFxuICAgICdQb3N0ZXJpb3IgUChDX2sgfCB4PTQuOCknOiBucC5yb3VuZChwb3N0ZXJpb3JzLCA0KSxcbiAgICAnUG9zdGVyaW9yXyUnOiBucC5yb3VuZChwb3N0ZXJpb3JzICogMTAwLCAyKVxufSlcbnByaW50KGZcIj09PSBCYXllcycgVGhlb3JlbSBDYWxjdWxhdGlvbiBmb3IgUGV0YWwgTGVuZ3RoIHggPSB7eF9vYnN9IGNtID09PVwiKVxucHJpbnQoYmF5ZXNfZGYudG9fc3RyaW5nKGluZGV4PUZhbHNlKSkifQ==
+</script>
+</div>
+</div>
+<hr>
+</section>
+<section id="linear-correlation-r-least-squares-linear-regression-ols" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="linear-correlation-r-least-squares-linear-regression-ols"><span class="header-section-number">4</span> 3. Linear Correlation (<span class="math inline">\(r\)</span>) &amp; Least Squares Linear Regression (OLS)</h2>
+<p>In engineering and data science, we frequently need to quantify the linear association between two continuous variables <span class="math inline">\((X, Y)\)</span> and predict <span class="math inline">\(Y\)</span> from <span class="math inline">\(X\)</span>.</p>
+<div class="math-box">
+<p><strong>1. Karl Pearson’s Coefficient of Linear Correlation (<span class="math inline">\(r\)</span>):</strong> <span class="math display">\[r = \frac{\text{Cov}(X, Y)}{\sigma_X \sigma_Y} = \frac{\sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum_{i=1}^n (x_i - \bar{x})^2} \sqrt{\sum_{i=1}^n (y_i - \bar{y})^2}} \in [-1, +1]\]</span></p>
+<p><strong>2. Linear Regression via Method of Least Squares (OLS):</strong> We fit the line <span class="math inline">\(\hat{y}_i = \beta_0 + \beta_1 x_i\)</span> by minimizing the <strong>Residual Sum of Squares (RSS)</strong>: <span class="math display">\[\text{RSS}(\beta_0, \beta_1) = \sum_{i=1}^n (y_i - (\beta_0 + \beta_1 x_i))^2\]</span> Setting <span class="math inline">\(\frac{\partial \text{RSS}}{\partial \beta_0} = 0\)</span> and <span class="math inline">\(\frac{\partial \text{RSS}}{\partial \beta_1} = 0\)</span> gives the normal equations with closed-form solution: <span class="math display">\[\hat{\beta}_1 = \frac{\sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^n (x_i - \bar{x})^2} = r \frac{s_Y}{s_X}, \qquad \hat{\beta}_0 = \bar{y} - \hat{\beta}_1 \bar{x}\]</span></p>
+</div>
+<p>Let’s compute the 4x4 Correlation Matrix of Iris and fit an exact Least Squares Regression line predicting <code>Petal Width</code> (<span class="math inline">\(Y\)</span>) from <code>Petal Length</code> (<span class="math inline">\(X\)</span>):</p>
+<div class="cell">
+<div>
+<div id="pyodide-3" class="exercise-cell">
+
+</div>
+<script type="pyodide-3-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyAxLiBQZWFyc29uIENvcnJlbGF0aW9uIE1hdHJpeCBhY3Jvc3MgYWxsIDQgSXJpcyBmZWF0dXJlc1xuZmVhdF9uYW1lcyA9IFsnU2VwYWxfTCcsICdTZXBhbF9XJywgJ1BldGFsX0wnLCAnUGV0YWxfVyddXG5jb3JyX21hdHJpeCA9IG5wLmNvcnJjb2VmKFguVClcbnByaW50KFwiPT09IFBlYXJzb24gQ29ycmVsYXRpb24gTWF0cml4IChyKSBmb3IgSXJpcyA9PT1cIilcbnByaW50KHBkLkRhdGFGcmFtZShjb3JyX21hdHJpeCwgaW5kZXg9ZmVhdF9uYW1lcywgY29sdW1ucz1mZWF0X25hbWVzKS5yb3VuZCg0KSlcblxuIyAyLiBEaXJlY3QgUHJvYmxlbTogTGVhc3QgU3F1YXJlcyBMaW5lYXIgUmVncmVzc2lvbiAoWCA9IFBldGFsIExlbmd0aCwgWSA9IFBldGFsIFdpZHRoKVxueF9yZWcgPSBYWzosIDJdICAjIFBldGFsIExlbmd0aFxueV9yZWcgPSBYWzosIDNdICAjIFBldGFsIFdpZHRoXG5cbnhfYmFyLCB5X2JhciA9IG5wLm1lYW4oeF9yZWcpLCBucC5tZWFuKHlfcmVnKVxuU194eSA9IG5wLnN1bSgoeF9yZWcgLSB4X2JhcikgKiAoeV9yZWcgLSB5X2JhcikpXG5TX3h4ID0gbnAuc3VtKCh4X3JlZyAtIHhfYmFyKSAqKiAyKVxuU195eSA9IG5wLnN1bSgoeV9yZWcgLSB5X2JhcikgKiogMilcblxucl92YWwgPSBTX3h5IC8gbnAuc3FydChTX3h4ICogU195eSlcbmJldGFfMSA9IFNfeHkgLyBTX3h4XG5iZXRhXzAgPSB5X2JhciAtIGJldGFfMSAqIHhfYmFyXG5cbnlfaGF0ID0gYmV0YV8wICsgYmV0YV8xICogeF9yZWdcbnJfc3F1YXJlZCA9IDEuMCAtIG5wLnN1bSgoeV9yZWcgLSB5X2hhdCkqKjIpIC8gU195eVxuXG5wcmludChmXCJcXG49PT0gT3JkaW5hcnkgTGVhc3QgU3F1YXJlcyAoT0xTKSBTb2x1dGlvbiA9PT1cIilcbnByaW50KGZcIlBlYXJzb24gciA9IHtyX3ZhbDouNGZ9IHwgQ29lZmZpY2llbnQgb2YgRGV0ZXJtaW5hdGlvbiBSXjIgPSB7cl9zcXVhcmVkOi40Zn1cIilcbnByaW50KGZcIkZpdHRlZCBSZWdyZXNzaW9uIEVxdWF0aW9uOiBQZXRhbF9XaWR0aCA9IHtiZXRhXzA6LjRmfSArIHtiZXRhXzE6LjRmfSAqIFBldGFsX0xlbmd0aFwiKVxuXG5wbHQuZmlndXJlKGZpZ3NpemU9KDcsIDQuMikpXG5wbHQuc2NhdHRlcih4X3JlZywgeV9yZWcsIGFscGhhPTAuNywgY29sb3I9JyMyNTYzZWInLCBlZGdlY29sb3JzPSdrJywgbGFiZWw9J09ic2VydmVkIEZsb3dlcnMgKG49MTUwKScpXG54X2xpbmUgPSBucC5saW5zcGFjZSh4X3JlZy5taW4oKSwgeF9yZWcubWF4KCksIDEwMClcbnBsdC5wbG90KHhfbGluZSwgYmV0YV8wICsgYmV0YV8xICogeF9saW5lLCAnci0nLCBsdz0yLjUsIGxhYmVsPWYnT0xTIExpbmU6IMW3ID0ge2JldGFfMDouMmZ9ICsge2JldGFfMTouMmZ9eCAoUsKyPXtyX3NxdWFyZWQ6LjJmfSknKVxucGx0LnhsYWJlbChcIlBldGFsIExlbmd0aCBYIChjbSlcIilcbnBsdC55bGFiZWwoXCJQZXRhbCBXaWR0aCBZIChjbSlcIilcbnBsdC50aXRsZShcIkxlYXN0IFNxdWFyZXMgTGluZWFyIFJlZ3Jlc3Npb24gb24gSXJpc1wiKVxucGx0LmxlZ2VuZCgpXG5wbHQuZ3JpZChUcnVlLCBhbHBoYT0wLjMpXG5wbHQudGlnaHRfbGF5b3V0KClcbnBsdC5zaG93KCkifQ==
+</script>
+</div>
+</div>
+<hr>
+</section>
+<section id="engineering-practice-bayesian-fault-diagnosis-sensor-regression" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="engineering-practice-bayesian-fault-diagnosis-sensor-regression"><span class="header-section-number">5</span> 4. Engineering Practice: Bayesian Fault Diagnosis &amp; Sensor Regression</h2>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Hands-On Engineering Challenge (Module 3 Application)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Apply your Module 3 toolkit to our <strong>Motor Predictive Maintenance</strong> dataset: 1. <strong>Correlation &amp; OLS Regression:</strong> Compute Pearson’s <span class="math inline">\(r\)</span> between <strong>Motor Current (<code>current_amp</code>)</strong> and <strong>Winding Temperature (<code>temp_c</code>)</strong>, and fit the Least Squares line predicting temperature from current draw. 2. <strong>Bayesian Fault Detector:</strong> Train a full 4-feature <code>GaussianNB</code> (which uses MLE + Bayes’ Theorem under the hood) and evaluate its probability calibration on a motor running at <code>[vibration=5.5, temp=70.0, current=15.0, acoustic=80.0]</code>.</p>
+</div>
+</div>
+<div class="cell">
+<div>
+<div id="pyodide-4" class="exercise-cell">
+
+</div>
+<script type="pyodide-4-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IG51bXB5IGFzIG5wXG5pbXBvcnQgcGFuZGFzIGFzIHBkXG5pbXBvcnQgbWF0cGxvdGxpYi5weXBsb3QgYXMgcGx0XG5mcm9tIHNrbGVhcm4ubmFpdmVfYmF5ZXMgaW1wb3J0IEdhdXNzaWFuTkJcblxuIyAxLiBHZW5lcmF0ZSBNb3RvciBUZWxlbWV0cnlcbm5wLnJhbmRvbS5zZWVkKDQyKVxubl9jID0gNTBcblhfbW90b3IgPSBucC52c3RhY2soW1xuICAgIG5wLmNvbHVtbl9zdGFjayhbbnAucmFuZG9tLm5vcm1hbCgyLjEsIDAuMzUsIG5fYyksIG5wLnJhbmRvbS5ub3JtYWwoNTUuMCwgMy41LCBuX2MpLCBucC5yYW5kb20ubm9ybWFsKDEyLjAsIDEuMSwgbl9jKSwgbnAucmFuZG9tLm5vcm1hbCg2Mi4wLCAzLjAsIG5fYyldKSxcbiAgICBucC5jb2x1bW5fc3RhY2soW25wLnJhbmRvbS5ub3JtYWwoNS44LCAwLjY1LCBuX2MpLCBucC5yYW5kb20ubm9ybWFsKDY4LjAsIDQuMCwgbl9jKSwgbnAucmFuZG9tLm5vcm1hbCgxNS4yLCAxLjQsIG5fYyksIG5wLnJhbmRvbS5ub3JtYWwoODEuMCwgNC4yLCBuX2MpXSksXG4gICAgbnAuY29sdW1uX3N0YWNrKFtucC5yYW5kb20ubm9ybWFsKDQuMiwgMC41NSwgbl9jKSwgbnAucmFuZG9tLm5vcm1hbCg5Mi4wLCA1LjAsIG5fYyksIG5wLnJhbmRvbS5ub3JtYWwoMTkuNSwgMS42LCBuX2MpLCBucC5yYW5kb20ubm9ybWFsKDc0LjAsIDMuOCwgbl9jKV0pXG5dKVxueV9tb3RvciA9IG5wLmFycmF5KFswXSpuX2MgKyBbMV0qbl9jICsgWzJdKm5fYylcbmxhYmVscyA9IFsnTm9ybWFsJywgJ0JlYXJpbmdfV2VhcicsICdPdmVyaGVhdGluZ19GYXVsdCddXG5cbiMgUGFydCBBOiBPTFMgUmVncmVzc2lvbiBwcmVkaWN0aW5nIFRlbXBlcmF0dXJlIChjb2wgMSkgZnJvbSBDdXJyZW50IChjb2wgMilcbnhfY3VyciA9IFhfbW90b3JbOiwgMl1cbnlfdGVtcCA9IFhfbW90b3JbOiwgMV1cbnJfY3QgPSBucC5jb3JyY29lZih4X2N1cnIsIHlfdGVtcClbMCwgMV1cbmIxID0gbnAuY292KHhfY3VyciwgeV90ZW1wLCBkZG9mPTEpWzAsIDFdIC8gbnAudmFyKHhfY3VyciwgZGRvZj0xKVxuYjAgPSBucC5tZWFuKHlfdGVtcCkgLSBiMSAqIG5wLm1lYW4oeF9jdXJyKVxuXG5wcmludChmXCI9PT0gTW90b3IgVGVsZW1ldHJ5IE9MUzogQ3VycmVudCAoQSkgLT4gVGVtcGVyYXR1cmUgKMKwQykgPT09XCIpXG5wcmludChmXCJQZWFyc29uIENvcnJlbGF0aW9uIHIgPSB7cl9jdDouNGZ9XCIpXG5wcmludChmXCJMZWFzdCBTcXVhcmVzIEVxdWF0aW9uOiBUZW1wX0MgPSB7YjA6LjJmfSArIHtiMTouMmZ9ICogQ3VycmVudF9BbXBcXG5cIilcblxuIyBQYXJ0IEI6IDQtRmVhdHVyZSBHYXVzc2lhbiBOYWl2ZSBCYXllcyAoTUxFICsgQmF5ZXMgVGhlb3JlbSlcbmduYiA9IEdhdXNzaWFuTkIoKVxuZ25iLmZpdChYX21vdG9yLCB5X21vdG9yKVxuXG5uZXdfc2Vuc29yX3JlYWRpbmcgPSBucC5hcnJheShbWzUuNSwgNzAuMCwgMTUuMCwgODAuMF1dKVxucG9zdF9wcm9icyA9IGduYi5wcmVkaWN0X3Byb2JhKG5ld19zZW5zb3JfcmVhZGluZylbMF1cblxucHJpbnQoXCI9PT0gQmF5ZXNpYW4gUG9zdGVyaW9yIERpYWdub3NpcyBmb3IgUmVhZGluZyBbVmliPTUuNSwgVGVtcD03MMKwQywgQ3Vycj0xNUEsIEFjb3U9ODBkQl0gPT09XCIpXG5mb3IgbGJsLCBwcm9iIGluIHppcChsYWJlbHMsIHBvc3RfcHJvYnMpOlxuICAgIHByaW50KGZcIiAgUCh7bGJsOjwxOH0gfCBYKSA9IHtwcm9iKjEwMDo2LjJmfSVcIilcblxucGx0LmZpZ3VyZShmaWdzaXplPSg3LCA0LjApKVxucGx0LnNjYXR0ZXIoeF9jdXJyLCB5X3RlbXAsIGM9eV9tb3RvciwgY21hcD0ndmlyaWRpcycsIHM9NDUsIGVkZ2Vjb2xvcnM9J2snLCBhbHBoYT0wLjg1LCBsYWJlbD0nTW90b3IgTG9ncycpXG5jX2dyaWQgPSBucC5saW5zcGFjZSh4X2N1cnIubWluKCksIHhfY3Vyci5tYXgoKSwgMTAwKVxucGx0LnBsb3QoY19ncmlkLCBiMCArIGIxICogY19ncmlkLCAnci0tJywgbHc9Mi41LCBsYWJlbD1mJ09MUyBGaXQ6IFQgPSB7YjA6LjFmfSArIHtiMTouMmZ9KkkgKHI9e3JfY3Q6LjJmfSknKVxucGx0LnhsYWJlbChcIk1vdG9yIEN1cnJlbnQgKEFtcHMpXCIpXG5wbHQueWxhYmVsKFwiV2luZGluZyBUZW1wZXJhdHVyZSAowrBDKVwiKVxucGx0LnRpdGxlKFwiTW90b3IgQ3VycmVudCB2cyBUZW1wZXJhdHVyZTogTGluZWFyIENvcnJlbGF0aW9uICYgT0xTIEZpdFwiKVxucGx0LmxlZ2VuZCgpXG5wbHQuZ3JpZChUcnVlLCBhbHBoYT0wLjMpXG5wbHQudGlnaHRfbGF5b3V0KClcbnBsdC5zaG93KCkifQ==
+</script>
+</div>
+</div>
+
+
+<script type="pyodide-data">
+eyJvcHRpb25zIjp7ImVudiI6eyJQTE9UTFlfUkVOREVSRVIiOiJwbG90bHlfbWltZXR5cGUifSwiaW5kZXhVUkwiOiJodHRwczovL2Nkbi5qc2RlbGl2ci5uZXQvcHlvZGlkZS92MC4yOC4xL2Z1bGwvIn0sInBhY2thZ2VzIjp7InBrZ3MiOlsicHlvZGlkZV9odHRwIiwibWljcm9waXAiLCJpcHl0aG9uIiwibnVtcHkiLCJwYW5kYXMiLCJtYXRwbG90bGliIiwic2NpcHkiLCJzY2lraXQtbGVhcm4iXX19
+</script>
+<script type="ojs-module-contents">
+eyJjb250ZW50cyI6W3siY2VsbE5hbWUiOiJweW9kaWRlLTQiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl80ID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS00LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtNC1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzQgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzQsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTMiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl8zID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0zLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMy1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzMgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzMsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTIiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl8yID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0yLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMi1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzIgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzIsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTEiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl8xID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0xLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMS1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzEgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzEsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLXByZWx1ZGUiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJweW9kaWRlT2pzID0ge1xuICBjb25zdCB7XG4gICAgUHlvZGlkZUV2YWx1YXRvcixcbiAgICBQeW9kaWRlRW52aXJvbm1lbnRNYW5hZ2VyLFxuICAgIHNldHVwUHl0aG9uLFxuICAgIHN0YXJ0UHlvZGlkZVdvcmtlcixcbiAgICBiNjREZWNvZGUsXG4gICAgY29sbGFwc2VQYXRoLFxuICB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcblxuICBjb25zdCBzdGF0dXNDb250YWluZXIgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZChcImV4ZXJjaXNlLWxvYWRpbmctc3RhdHVzXCIpO1xuICBjb25zdCBpbmRpY2F0b3JDb250YWluZXIgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZChcImV4ZXJjaXNlLWxvYWRpbmctaW5kaWNhdG9yXCIpO1xuICBpbmRpY2F0b3JDb250YWluZXIuY2xhc3NMaXN0LnJlbW92ZShcImQtbm9uZVwiKTtcblxuICBsZXQgc3RhdHVzVGV4dCA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoXCJkaXZcIilcbiAgc3RhdHVzVGV4dC5jbGFzc0xpc3QgPSBcImV4ZXJjaXNlLWxvYWRpbmctZGV0YWlsc1wiO1xuICBzdGF0dXNUZXh0ID0gc3RhdHVzQ29udGFpbmVyLmFwcGVuZENoaWxkKHN0YXR1c1RleHQpO1xuICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gYEluaXRpYWxpc2VgO1xuXG4gIC8vIEhvaXN0IGluZGljYXRvciBvdXQgZnJvbSBmaW5hbCBzbGlkZSB3aGVuIHJ1bm5pbmcgdW5kZXIgcmV2ZWFsXG4gIGNvbnN0IHJldmVhbFN0YXR1cyA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoXCIucmV2ZWFsIC5leGVyY2lzZS1sb2FkaW5nLWluZGljYXRvclwiKTtcbiAgaWYgKHJldmVhbFN0YXR1cykge1xuICAgIHJldmVhbFN0YXR1cy5yZW1vdmUoKTtcbiAgICBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKFwiLnJldmVhbCA+IC5zbGlkZXNcIikuYXBwZW5kQ2hpbGQocmV2ZWFsU3RhdHVzKTtcbiAgfVxuXG4gIC8vIE1ha2UgYW55IHJldmVhbCBzbGlkZXMgd2l0aCBsaXZlIGNlbGxzIHNjcm9sbGFibGVcbiAgZG9jdW1lbnQucXVlcnlTZWxlY3RvckFsbChcIi5yZXZlYWwgLmV4ZXJjaXNlLWNlbGxcIikuZm9yRWFjaCgoZWwpID0+IHtcbiAgICBlbC5jbG9zZXN0KCdzZWN0aW9uLnNsaWRlJykuY2xhc3NMaXN0LmFkZChcInNjcm9sbGFibGVcIik7XG4gIH0pXG5cbiAgLy8gUHlvZGlkZSBzdXBwbGVtZW50YWwgZGF0YSBhbmQgb3B0aW9uc1xuICBjb25zdCBkYXRhQ29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLWRhdGFcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBkYXRhID0gSlNPTi5wYXJzZShiNjREZWNvZGUoZGF0YUNvbnRlbnQpKTtcblxuICAvLyBHcmFiIGxpc3Qgb2YgcmVzb3VyY2VzIHRvIGJlIGRvd25sb2FkZWRcbiAgY29uc3QgZmlsZXNDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcInZmcy1maWxlXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgZmlsZXMgPSBKU09OLnBhcnNlKGI2NERlY29kZShmaWxlc0NvbnRlbnQpKTtcblxuICBsZXQgcHlvZGlkZVByb21pc2UgPSAoYXN5bmMgKCkgPT4ge1xuICAgIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBgRG93bmxvYWRpbmcgUHlvZGlkZWA7XG4gICAgY29uc3QgcHlvZGlkZSA9IGF3YWl0IHN0YXJ0UHlvZGlkZVdvcmtlcihkYXRhLm9wdGlvbnMpO1xuXG4gICAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGBEb3dubG9hZGluZyBwYWNrYWdlOiBtaWNyb3BpcGA7XG4gICAgYXdhaXQgcHlvZGlkZS5sb2FkUGFja2FnZShcIm1pY3JvcGlwXCIpO1xuICAgIGNvbnN0IG1pY3JvcGlwID0gYXdhaXQgcHlvZGlkZS5weWltcG9ydChcIm1pY3JvcGlwXCIpO1xuICAgIGF3YWl0IGRhdGEucGFja2FnZXMucGtncy5tYXAoKHBrZykgPT4gKCkgPT4ge1xuICAgICAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGBEb3dubG9hZGluZyBwYWNrYWdlOiAke3BrZ31gO1xuICAgICAgcmV0dXJuIG1pY3JvcGlwLmluc3RhbGwocGtnKTtcbiAgICB9KS5yZWR1Y2UoKGN1ciwgbmV4dCkgPT4gY3VyLnRoZW4obmV4dCksIFByb21pc2UucmVzb2x2ZSgpKTtcbiAgICBhd2FpdCBtaWNyb3BpcC5kZXN0cm95KCk7XG5cbiAgICAvLyBEb3dubG9hZCBhbmQgaW5zdGFsbCByZXNvdXJjZXNcbiAgICBhd2FpdCBmaWxlcy5tYXAoKGZpbGUpID0+IGFzeW5jICgpID0+IHtcbiAgICAgIGNvbnN0IG5hbWUgPSBmaWxlLnN1YnN0cmluZyhmaWxlLmxhc3RJbmRleE9mKCcvJykgKyAxKTtcbiAgICAgIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBgRG93bmxvYWRpbmcgcmVzb3VyY2U6ICR7bmFtZX1gO1xuICAgICAgY29uc3QgcmVzcG9uc2UgPSBhd2FpdCBmZXRjaChmaWxlKTtcbiAgICAgIGlmICghcmVzcG9uc2Uub2spIHtcbiAgICAgICAgdGhyb3cgbmV3IEVycm9yKGBDYW4ndCBkb3dubG9hZCBcXGAke2ZpbGV9XFxgLiBFcnJvciAke3Jlc3BvbnNlLnN0YXR1c306IFwiJHtyZXNwb25zZS5zdGF0dXNUZXh0fVwiLmApO1xuICAgICAgfVxuICAgICAgY29uc3QgZGF0YSA9IGF3YWl0IHJlc3BvbnNlLmFycmF5QnVmZmVyKCk7XG5cbiAgICAgIC8vIFN0b3JlIFVSTHMgaW4gdGhlIGN3ZCB3aXRob3V0IGFueSBzdWJkaXJlY3Rvcnkgc3RydWN0dXJlXG4gICAgICBpZiAoZmlsZS5pbmNsdWRlcyhcIjovL1wiKSkge1xuICAgICAgICBmaWxlID0gbmFtZTtcbiAgICAgIH1cblxuICAgICAgLy8gQ29sbGFwc2UgaGlnaGVyIGRpcmVjdG9yeSBzdHJ1Y3R1cmVcbiAgICAgIGZpbGUgPSBjb2xsYXBzZVBhdGgoZmlsZSk7XG5cbiAgICAgIC8vIENyZWF0ZSBkaXJlY3RvcnkgdHJlZSwgaWdub3JpbmcgXCJkaXJlY3RvcnkgZXhpc3RzXCIgVkZTIGVycm9yc1xuICAgICAgY29uc3QgcGFydHMgPSBmaWxlLnNwbGl0KCcvJykuc2xpY2UoMCwgLTEpO1xuICAgICAgbGV0IHBhdGggPSAnJztcbiAgICAgIHdoaWxlIChwYXJ0cy5sZW5ndGggPiAwKSB7XG4gICAgICAgIHBhdGggKz0gcGFydHMuc2hpZnQoKSArICcvJztcbiAgICAgICAgdHJ5IHtcbiAgICAgICAgICBhd2FpdCBweW9kaWRlLkZTLm1rZGlyKHBhdGgpO1xuICAgICAgICB9IGNhdGNoIChlKSB7XG4gICAgICAgICAgaWYgKGUubmFtZSAhPT0gXCJFcnJub0Vycm9yXCIpIHRocm93IGU7XG4gICAgICAgICAgaWYgKGUuZXJybm8gIT09IDIwKSB7XG4gICAgICAgICAgICBjb25zdCBlcnJvclRleHRQdHIgPSBhd2FpdCBweW9kaWRlLl9tb2R1bGUuX3N0cmVycm9yKGUuZXJybm8pO1xuICAgICAgICAgICAgY29uc3QgZXJyb3JUZXh0ID0gYXdhaXQgcHlvZGlkZS5fbW9kdWxlLlVURjhUb1N0cmluZyhlcnJvclRleHRQdHIpO1xuICAgICAgICAgICAgdGhyb3cgbmV3IEVycm9yKGBGaWxlc3lzdGVtIEVycm9yICR7ZS5lcnJub30gXCIke2Vycm9yVGV4dH1cIi5gKTtcbiAgICAgICAgICB9XG4gICAgICAgIH1cbiAgICAgIH1cblxuICAgICAgLy8gV3JpdGUgdGhpcyBmaWxlIHRvIHRoZSBWRlNcbiAgICAgIHRyeSB7XG4gICAgICAgIHJldHVybiBhd2FpdCBweW9kaWRlLkZTLndyaXRlRmlsZShmaWxlLCBuZXcgVWludDhBcnJheShkYXRhKSk7XG4gICAgICB9IGNhdGNoIChlKSB7XG4gICAgICAgIGlmIChlLm5hbWUgIT09IFwiRXJybm9FcnJvclwiKSB0aHJvdyBlO1xuICAgICAgICBjb25zdCBlcnJvclRleHRQdHIgPSBhd2FpdCBweW9kaWRlLl9tb2R1bGUuX3N0cmVycm9yKGUuZXJybm8pO1xuICAgICAgICBjb25zdCBlcnJvclRleHQgPSBhd2FpdCBweW9kaWRlLl9tb2R1bGUuVVRGOFRvU3RyaW5nKGVycm9yVGV4dFB0cik7XG4gICAgICAgIHRocm93IG5ldyBFcnJvcihgRmlsZXN5c3RlbSBFcnJvciAke2UuZXJybm99IFwiJHtlcnJvclRleHR9XCIuYCk7XG4gICAgICB9XG4gICAgfSkucmVkdWNlKChjdXIsIG5leHQpID0+IGN1ci50aGVuKG5leHQpLCBQcm9taXNlLnJlc29sdmUoKSk7XG5cbiAgICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gYFB5b2RpZGUgZW52aXJvbm1lbnQgc2V0dXBgO1xuICAgIGF3YWl0IHNldHVwUHl0aG9uKHB5b2RpZGUpO1xuXG4gICAgc3RhdHVzVGV4dC5yZW1vdmUoKTtcbiAgICBpZiAoc3RhdHVzQ29udGFpbmVyLmNoaWxkcmVuLmxlbmd0aCA9PSAwKSB7XG4gICAgICBzdGF0dXNDb250YWluZXIucGFyZW50Tm9kZS5yZW1vdmUoKTtcbiAgICB9XG4gICAgcmV0dXJuIHB5b2RpZGU7XG4gIH0pKCkuY2F0Y2goKGVycikgPT4ge1xuICAgIHN0YXR1c1RleHQuc3R5bGUuY29sb3IgPSBcInZhcigtLWV4ZXJjaXNlLWVkaXRvci1obC1lciwgI0FEMDAwMClcIjtcbiAgICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gZXJyLm1lc3NhZ2U7XG4gICAgLy9pbmRpY2F0b3JDb250YWluZXIucXVlcnlTZWxlY3RvcihcIi5zcGlubmVyLWdyb3dcIikuY2xhc3NMaXN0LmFkZChcImQtbm9uZVwiKTtcbiAgICB0aHJvdyBlcnI7XG4gIH0pO1xuXG4gIC8vIEtlZXAgdHJhY2sgb2YgaW5pdGlhbCBPSlMgYmxvY2sgcmVuZGVyXG4gIGNvbnN0IHJlbmRlcmVkT2pzID0ge307XG5cbiAgY29uc3QgcHJvY2VzcyA9IGFzeW5jIChjb250ZXh0LCBpbnB1dHMpID0+IHtcbiAgICBjb25zdCBweW9kaWRlID0gYXdhaXQgcHlvZGlkZVByb21pc2U7XG4gICAgY29uc3QgZXZhbHVhdG9yID0gbmV3IFB5b2RpZGVFdmFsdWF0b3IocHlvZGlkZSwgY29udGV4dCk7XG4gICAgYXdhaXQgZXZhbHVhdG9yLnByb2Nlc3MoaW5wdXRzKTtcbiAgICByZXR1cm4gZXZhbHVhdG9yLmNvbnRhaW5lcjtcbiAgfVxuXG4gIHJldHVybiB7XG4gICAgcHlvZGlkZVByb21pc2UsXG4gICAgcmVuZGVyZWRPanMsXG4gICAgcHJvY2VzcyxcbiAgfTtcbn1cbiJ9XX0=
+</script>
+<div id="exercise-loading-indicator" class="exercise-loading-indicator d-none d-flex align-items-center gap-2">
+<div id="exercise-loading-status" class="d-flex gap-2">
+
+</div>
+<div class="spinner-grow spinner-grow-sm">
+
+</div>
+</div>
+<script type="vfs-file">
+W10=
+</script>
+</section>
+
+</main> <!-- /main -->
+<script type="ojs-module-contents">
+eyJjb250ZW50cyI6W119
+</script>
+<script type="module">
+if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
+window._ojs.paths.runtimeToDoc = "../..";
+window._ojs.paths.runtimeToRoot = "../..";
+window._ojs.paths.docToRoot = "";
+window._ojs.selfContained = false;
+window._ojs.runtime.interpretFromScriptTags();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>GNEST305 — Semester S3 Introduction to AI &amp; Data Science</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Built with Quarto &amp; Quarto-Live (Pyodide)</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

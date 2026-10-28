@@ -1,0 +1,236 @@
+---
+title: "Day 1, Session 2: Mathematical Foundations — Linear Algebra, SVD & PCA"
+subtitle: "GNEST305 Module 2 — Data Matrices, Spectral Decomposition, SVD & Principal Component Analysis (2.5 Hours)"
+format: live-html
+engine: knitr
+---
+
+
+## Why Linear Algebra is the Engine of AI
+
+In Session 1, we saw that both the **Iris dataset** and **Motor Sensor Telemetry** live in a 4-dimensional vector space $\mathbb{R}^4$ ($150 \times 4$ matrix). How can we visualize a 4D (or 1,000D) dataset on a 2D screen while losing the **least possible information**?
+
+The answer lies in **Module 2** (Text-1: Gilbert Strang, *Introduction to Linear Algebra*): **Matrix Decompositions** and **Principal Component Analysis (PCA)**.
+
+::: {.callout-note}
+### GNEST305 Module 2 Syllabus Checklist
+* **Role of Linear Algebra in Data Representation and Analysis** (Vectors, norms, inner products, projections, covariance matrices)
+* **Matrix Decomposition:** Eigenvalues and Eigenvectors ($Av = \lambda v$)
+* **Spectral Decomposition (Eigendecomposition)** of symmetric matrices ($\Sigma = Q \Lambda Q^T$)
+* **Singular Value Decomposition (SVD):** Factoring any matrix $X = U S V^T$
+* **Dimensionality Reduction Technique:** Principal Component Analysis (PCA)
+:::
+
+---
+
+## 1. Mean-Centering and the Covariance Matrix $\Sigma$
+
+Let $X \in \mathbb{R}^{n \times d}$ be our standardized (or mean-centered) data matrix where each column has mean $0$. The **sample covariance matrix** $\Sigma \in \mathbb{R}^{d \times d}$ captures both the variance of each feature (diagonal entries) and the linear redundancy between features (off-diagonal entries):
+
+$$\Sigma = \frac{1}{n - 1} X^T X$$
+
+Notice two critical properties of $\Sigma$:
+1. $\Sigma$ is a **square $d \times d$ matrix** ($4 \times 4$ for Iris and Motor sensors).
+2. $\Sigma$ is **real and symmetric** ($\Sigma^T = \Sigma$) and **positive semi-definite** ($v^T \Sigma v \ge 0$).
+
+---
+
+## 2. Spectral Decomposition (Eigendecomposition)
+
+By the **Spectral Theorem**, any real symmetric matrix $\Sigma \in \mathbb{R}^{d \times d}$ can be factored into an orthogonal matrix of eigenvectors $Q$ and a diagonal matrix of real eigenvalues $\Lambda$:
+
+$$\Sigma = Q \Lambda Q^T = \sum_{i=1}^d \lambda_i q_i q_i^T$$
+
+where:
+* $q_1, q_2, \dots, q_d$ are mutually **orthonormal eigenvectors** ($q_i^T q_j = \delta_{ij}$, so $Q^T Q = I$). Geometrically, these define the **principal axes of variance** of the data cloud!
+* $\lambda_1 \ge \lambda_2 \ge \dots \ge \lambda_d \ge 0$ are the corresponding **eigenvalues**, which measure the exact **variance of the data projected onto each axis $q_i$**.
+
+---
+
+## 3. Singular Value Decomposition (SVD)
+
+What if we don't even want to form $X^T X$ (which can lose numerical precision)? **Singular Value Decomposition (SVD)** factors *any* rectangular matrix $X \in \mathbb{R}^{n \times d}$ directly:
+
+$$X = U S V^T$$
+
+* $U \in \mathbb{R}^{n \times n}$: Orthogonal matrix of **left singular vectors** (columns are eigenvectors of $X X^T$).
+* $S \in \mathbb{R}^{n \times d}$: Diagonal matrix of non-negative **singular values** $\sigma_1 \ge \sigma_2 \ge \dots \ge \sigma_d \ge 0$.
+* $V \in \mathbb{R}^{d \times d}$: Orthogonal matrix of **right singular vectors** (columns are eigenvectors of $X^T X$).
+
+::: {.math-box}
+**The Golden Bridge Connecting SVD, Spectral Decomposition, and PCA:**
+Substitute $X = U S V^T$ into the covariance formula $\Sigma = \frac{1}{n-1} X^T X$:
+$$\Sigma = \frac{1}{n-1} (U S V^T)^T (U S V^T) = \frac{1}{n-1} V S^T U^T U S V^T = V \left(\frac{S^2}{n-1}\right) V^T$$
+Comparing this with $\Sigma = Q \Lambda Q^T$, we see immediately that:
+1. The right singular vectors $V$ **are identical** to the spectral eigenvectors $Q$ (the Principal Components!).
+2. The eigenvalues $\lambda_i$ of the covariance matrix are directly related to the singular values $\sigma_i$:
+$$\lambda_i = \frac{\sigma_i^2}{n - 1}$$
+:::
+
+Let's verify this mathematical identity in Python on the **Iris dataset**:
+
+```{pyodide}
+import numpy as np
+import pandas as pd
+from sklearn.datasets import load_iris
+from sklearn.preprocessing import StandardScaler
+
+# 1. Load & Standardize Iris Data (Zero Mean, Unit Variance)
+iris = load_iris()
+X = StandardScaler().fit_transform(iris.data)
+n, d = X.shape
+
+# 2. Compute Covariance Matrix Sigma = (1/(n-1)) X^T X
+Sigma = (X.T @ X) / (n - 1)
+print("=== 4x4 Covariance Matrix (Sigma) ===")
+print( np.round(Sigma, 3) )
+
+# 3. Method A: Spectral Decomposition of Sigma (np.linalg.eigh)
+eigvals, eigvecs = np.linalg.eigh(Sigma)
+# Sort descending
+idx = np.argsort(eigvals)[::-1]
+eigvals = eigvals[idx]
+eigvecs = eigvecs[:, idx]
+
+# 4. Method B: Direct Singular Value Decomposition (SVD) of X
+U, singular_vals, Vt = np.linalg.svd(X, full_matrices=False)
+V = Vt.T
+eigvals_from_svd = (singular_vals ** 2) / (n - 1)
+
+print("\n=== Verification: Spectral Eigenvalues vs SVD (sigma^2 / (n-1)) ===")
+comp_df = pd.DataFrame({
+    'Component': ['PC1', 'PC2', 'PC3', 'PC4'],
+    'Singular_Value (sigma)': singular_vals.round(4),
+    'Eigenvalue (Spectral)': eigvals.round(4),
+    'Eigenvalue (from SVD)': eigvals_from_svd.round(4),
+    'Explained_Variance_%': (eigvals / np.sum(eigvals) * 100).round(2)
+})
+print(comp_df.to_string(index=False))
+print(f"\nTotal Variance Retained in Top 2 Components (PC1 + PC2): {comp_df['Explained_Variance_%'][:2].sum():.2f}%")
+```
+
+---
+
+## 4. Dimensionality Reduction via Principal Component Analysis (PCA)
+
+To project our $d$-dimensional data matrix $X \in \mathbb{R}^{n \times d}$ down to a $k$-dimensional subspace ($k < d$, e.g., $k=2$), we simply multiply $X$ by the first $k$ columns of $V$ (let's call this $W_k = V_{:, 1:k} \in \mathbb{R}^{d \times k}$):
+
+$$Z = X W_k \in \mathbb{R}^{n \times k}$$
+
+And we can **reconstruct** the low-rank approximation $\hat{X}_k \in \mathbb{R}^{n \times d}$ back in the original 4D space via:
+
+$$\hat{X}_k = Z W_k^T = \sum_{i=1}^k \sigma_i u_i v_i^T$$
+
+By the **Eckart-Young-Mirsky Theorem**, $\hat{X}_k$ is the best rank-$k$ approximation to $X$ in Frobenius norm! Let's visualize the 2D PCA projection of Iris alongside the Scree Plot (cumulative variance explained):
+
+```{pyodide}
+import matplotlib.pyplot as plt
+
+# Project 4D Iris onto top k=2 Principal Components: Z = X @ V[:, :2]
+W_2 = V[:, :2]
+Z_iris = X @ W_2
+
+# Reconstruct 4D data from 2D PCA and measure Reconstruction MSE
+X_reconstructed = Z_iris @ W_2.T
+mse_recon = np.mean((X - X_reconstructed) ** 2)
+print(f"4D -> 2D Reconstruction Mean Squared Error: {mse_recon:.4f}")
+
+fig, axes = plt.subplots(1, 2, figsize=(11, 4.2))
+
+# Left plot: 2D PCA Projection with Feature Loading Vectors (Biplot)
+colors = ['#2563eb', '#0d9488', '#ea580c']
+for i, sp in enumerate(iris.target_names):
+    mask = (iris.target == i)
+    axes[0].scatter(Z_iris[mask, 0], Z_iris[mask, 1], label=sp.capitalize(), color=colors[i], alpha=0.8, edgecolors='k')
+
+# Overlay Principal Component Loadings (arrows showing how original 4 features map to PC1/PC2)
+feat_short = ['Sepal L', 'Sepal W', 'Petal L', 'Petal W']
+for j in range(4):
+    axes[0].arrow(0, 0, W_2[j, 0]*2.2, W_2[j, 1]*2.2, color='#dc2626', width=0.03, head_width=0.12)
+    axes[0].text(W_2[j, 0]*2.5, W_2[j, 1]*2.5, feat_short[j], color='#991b1b', fontweight='bold', fontsize=9)
+
+axes[0].set_xlabel(f"PC1 ({eigvals[0]/eigvals.sum()*100:.1f}% Variance)")
+axes[0].set_ylabel(f"PC2 ({eigvals[1]/eigvals.sum()*100:.1f}% Variance)")
+axes[0].set_title("Iris 4D -> 2D PCA Projection & Feature Biplot")
+axes[0].legend()
+axes[0].grid(True, alpha=0.3)
+
+# Right plot: Scree Plot & Cumulative Explained Variance
+var_pct = eigvals / eigvals.sum() * 100
+cum_var = np.cumsum(var_pct)
+axes[1].bar(['PC1', 'PC2', 'PC3', 'PC4'], var_pct, color='#3b82f6', alpha=0.75, label='Individual %')
+axes[1].plot(['PC1', 'PC2', 'PC3', 'PC4'], cum_var, 'r-o', linewidth=2, label='Cumulative %')
+axes[1].axhline(95, color='green', linestyle='--', label='95% Threshold')
+axes[1].set_ylabel("Explained Variance (%)")
+axes[1].set_title("PCA Scree Plot (Iris Eigenvalue Spectrum)")
+axes[1].legend()
+axes[1].grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+```
+
+---
+
+## 5. Engineering Practice: Compressing 4D Motor Telemetry into a 2D Health Map
+
+::: {.callout-warning}
+### Hands-On Engineering Challenge (Module 2 Application)
+In industrial IoT monitoring, operators want a single **2D Control Room Health Map** that summarizes all 4 correlated sensors (`vibration`, `temperature`, `current`, `acoustic`) while preserving $>90\%$ of the signal variance.
+
+1. Run the code below to compute the **SVD and PCA** of the 4-channel Motor Sensor Matrix.
+2. Inspect the eigenvector loadings $V_{:, 1:2}$: which physical sensors dominate **PC1** vs **PC2**?
+3. **Experiment:** Change `k = 1`, `2`, or `3` in the low-rank SVD reconstruction $\hat{X}_k = U_{:,:k} S_{:k,:k} V_{:,:k}^T$ and observe how fast the reconstruction error drops!
+:::
+
+```{pyodide}
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import StandardScaler
+
+# 1. Generate 4-Channel Motor Sensor Matrix
+np.random.seed(42)
+n_c = 50
+X_motor_raw = np.vstack([
+    np.column_stack([np.random.normal(2.1, 0.35, n_c), np.random.normal(55.0, 3.5, n_c), np.random.normal(12.0, 1.1, n_c), np.random.normal(62.0, 3.0, n_c)]),
+    np.column_stack([np.random.normal(5.8, 0.65, n_c), np.random.normal(68.0, 4.0, n_c), np.random.normal(15.2, 1.4, n_c), np.random.normal(81.0, 4.2, n_c)]),
+    np.column_stack([np.random.normal(4.2, 0.55, n_c), np.random.normal(92.0, 5.0, n_c), np.random.normal(19.5, 1.6, n_c), np.random.normal(74.0, 3.8, n_c)])
+])
+y_motor = np.array([0]*n_c + [1]*n_c + [2]*n_c)
+labels = ['Normal', 'Bearing_Wear', 'Overheating_Fault']
+sensor_names = ['Vibration', 'Temperature', 'Current', 'Acoustic']
+
+# 2. Standardize & Perform SVD
+X_m = StandardScaler().fit_transform(X_motor_raw)
+U_m, s_m, Vt_m = np.linalg.svd(X_m, full_matrices=False)
+V_m = Vt_m.T
+eig_m = (s_m ** 2) / (len(X_m) - 1)
+var_ratio_m = eig_m / eig_m.sum() * 100
+
+print("=== Motor Sensor PCA Loadings (Right Singular Vectors V) ===")
+loadings_df = pd.DataFrame(V_m[:, :2], index=sensor_names, columns=['PC1_Loading', 'PC2_Loading']).round(3)
+print(loadings_df)
+print(f"\nVariance Explained -> PC1: {var_ratio_m[0]:.1f}%, PC2: {var_ratio_m[1]:.1f}% (Total 2D: {var_ratio_m[:2].sum():.1f}%)")
+
+# 3. Project onto 2D Health Map
+Z_motor = X_m @ V_m[:, :2]
+
+plt.figure(figsize=(7.5, 4.3))
+palette = ['#16a34a', '#d97706', '#dc2626']
+for i, lbl in enumerate(labels):
+    mask = (y_motor == i)
+    plt.scatter(Z_motor[mask, 0], Z_motor[mask, 1], label=lbl, color=palette[i], s=50, alpha=0.85, edgecolors='k')
+
+for j, s_name in enumerate(sensor_names):
+    plt.arrow(0, 0, V_m[j, 0]*2.5, V_m[j, 1]*2.5, color='#1e293b', width=0.03, head_width=0.12)
+    plt.text(V_m[j, 0]*2.8, V_m[j, 1]*2.8, s_name, color='#0f172a', fontweight='bold', fontsize=9)
+
+plt.xlabel(f"Principal Health Axis 1 ({var_ratio_m[0]:.1f}% Variance)")
+plt.ylabel(f"Principal Health Axis 2 ({var_ratio_m[1]:.1f}% Variance)")
+plt.title("2D PCA Control Room Health Map (4 Sensor Channels Compressed)")
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.tight_layout()
+plt.show()
+```

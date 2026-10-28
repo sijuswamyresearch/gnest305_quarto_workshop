@@ -1,0 +1,67 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "GNEST305: Math & Code for AI & Data Science"
+  description: "2-Day Interactive Hands-On Workshop for S3 B.Tech AI"
+  navbar:
+    background: primary
+    search: true
+    left:
+      - text: "Overview & Schedule"
+        file: index.qmd
+      - text: "Day 1"
+        menu:
+          - text: "Session 1: Data Science Process (Module 4)"
+            file: module4-datascience.qmd
+          - text: "Session 2: Linear Algebra, SVD & PCA (Module 2)"
+            file: module2-linear-algebra.qmd
+      - text: "Day 2"
+        menu:
+          - text: "Session 3: Probability, MLE, Bayes & OLS (Module 3)"
+            file: module3-prob-stats.qmd
+          - text: "Session 4: ML, Clustering & Deep Neural Nets (Module 1)"
+            file: module1-ml-ann.qmd
+      - text: "Practice Lab"
+        file: practice-predictive-maintenance.qmd
+  sidebar:
+    style: "docked"
+    search: true
+    contents:
+      - section: "Workshop Overview"
+        contents:
+          - index.qmd
+      - section: "Day 1: Foundations & Representation (4.5 Hrs)"
+        contents:
+          - module4-datascience.qmd
+          - module2-linear-algebra.qmd
+      - section: "Day 2: Statistical Inference & Learning (4.5 Hrs)"
+        contents:
+          - module3-prob-stats.qmd
+          - module1-ml-ann.qmd
+      - section: "Capstone Engineering Lab"
+        contents:
+          - practice-predictive-maintenance.qmd
+  page-footer:
+    left: "GNEST305 — Semester S3 Introduction to AI & Data Science"
+    right: "Built with Quarto & Quarto-Live (Pyodide)"
+
+format:
+  live-html:
+    theme: yeti
+    css: styles.css
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    code-copy: true
+    code-overflow: wrap
+    html-math-method: mathjax
+
+pyodide:
+  packages:
+    - numpy
+    - pandas
+    - matplotlib
+    - scipy
+    - scikit-learn

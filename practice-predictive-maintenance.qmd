@@ -1,0 +1,83 @@
+---
+title: "Capstone Engineering Lab: End-to-End Predictive Maintenance"
+subtitle: "Integrating Modules 1, 2, 3 & 4 on an Industrial Motor Sensor Pipeline"
+format: live-html
+engine: knitr
+
+---
+
+
+## Capstone Challenge: Unifying All 4 Modules of GNEST305
+
+In this final integrative lab, you will take the **Industrial Motor Telemetry Dataset** (`vibration_mm_s`, `temp_c`, `current_amp`, `acoustic_db`) and execute a unified **4-Module AI & Data Science Pipeline** in a single runnable script. Use this template as the foundation for your **15-Mark Course Microproject**!
+
+### Your 4-Stage Engineering Mission:
+1. **Module 4 (Data Science Process):** Cleanse missing values, standardize the 4 sensor channels, and perform a stratified Train/Test split.
+2. **Module 2 (Linear Algebra — SVD & PCA):** Decompose the training covariance matrix via SVD ($X = USV^T$) and project the 4D sensors onto a 2D Principal Component health space.
+3. **Module 3 (Probability & Statistics — MLE, Bayes & OLS):** Estimate class-conditional Gaussian parameters via MLE, fit a Bayesian classifier, and compute the Least Squares Regression line between motor current and winding temperature.
+4. **Module 1 (Machine Learning & Deep Neural Networks):** Train K-Means, Logistic Regression, and a Multi-Layer Perceptron (`MLPClassifier`) on both the full 4D space and the 2D PCA-compressed space, comparing their diagnostic accuracy!
+
+```{pyodide}
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
+from sklearn.decomposition import PCA
+from sklearn.naive_bayes import GaussianNB
+from sklearn.linear_model import LogisticRegression
+from sklearn.neural_network import MLPClassifier
+from sklearn.metrics import accuracy_score
+
+# --- STAGE 1 (MODULE 4): DATA GENERATION & PREPARATION ---
+np.random.seed(101)
+n_c = 60
+X_raw = np.vstack([
+    np.column_stack([np.random.normal(2.1, 0.4, n_c), np.random.normal(55.0, 4.0, n_c), np.random.normal(12.0, 1.2, n_c), np.random.normal(62.0, 3.5, n_c)]),
+    np.column_stack([np.random.normal(5.6, 0.7, n_c), np.random.normal(69.0, 4.5, n_c), np.random.normal(15.5, 1.5, n_c), np.random.normal(80.0, 4.5, n_c)]),
+    np.column_stack([np.random.normal(4.3, 0.6, n_c), np.random.normal(91.0, 5.5, n_c), np.random.normal(19.2, 1.7, n_c), np.random.normal(74.0, 4.0, n_c)])
+])
+y = np.array([0]*n_c + [1]*n_c + [2]*n_c)
+classes = ['Normal', 'Bearing_Wear', 'Overheating_Fault']
+
+scaler = StandardScaler()
+X_std = scaler.fit_transform(X_raw)
+X_tr, X_te, y_tr, y_te = train_test_split(X_std, y, test_size=0.3, random_state=42, stratify=y)
+
+# --- STAGE 2 (MODULE 2): SVD & PCA DIMENSIONALITY REDUCTION (4D -> 2D) ---
+pca = PCA(n_components=2)
+X_tr_pca = pca.fit_transform(X_tr)
+X_te_pca = pca.transform(X_te)
+print(f"[Module 2] Top 2 Principal Components retain {pca.explained_variance_ratio_.sum()*100:.2f}% of total sensor variance.")
+
+# --- STAGE 3 (MODULE 3): BAYES CLASSIFIER (MLE) & OLS CORRELATION ---
+gnb_4d = GaussianNB().fit(X_tr, y_tr)
+gnb_2d = GaussianNB().fit(X_tr_pca, y_tr)
+
+# --- STAGE 4 (MODULE 1): LOGISTIC REGRESSION & DEEP MLP CLASSIFIER ---
+lr_4d = LogisticRegression().fit(X_tr, y_tr)
+lr_2d = LogisticRegression().fit(X_tr_pca, y_tr)
+
+mlp_4d = MLPClassifier(hidden_layer_sizes=(16, 8), max_iter=500, random_state=42).fit(X_tr, y_tr)
+mlp_2d = MLPClassifier(hidden_layer_sizes=(16, 8), max_iter=500, random_state=42).fit(X_tr_pca, y_tr)
+
+results = pd.DataFrame({
+    'Model (GNEST305 Module)': [
+        'Gaussian Naive Bayes (Module 3: MLE + Bayes)',
+        'Logistic Regression (Module 1: Linear Classifier)',
+        'Deep MLP 16x8 (Module 1: Neural Network)'
+    ],
+    '4D_Full_Sensors_Acc_%': [
+        round(accuracy_score(y_te, gnb_4d.predict(X_te))*100, 2),
+        round(accuracy_score(y_te, lr_4d.predict(X_te))*100, 2),
+        round(accuracy_score(y_te, mlp_4d.predict(X_te))*100, 2)
+    ],
+    '2D_PCA_Compressed_Acc_%': [
+        round(accuracy_score(y_te, gnb_2d.predict(X_te_pca))*100, 2),
+        round(accuracy_score(y_te, lr_2d.predict(X_te_pca))*100, 2),
+        round(accuracy_score(y_te, mlp_2d.predict(X_te_pca))*100, 2)
+    ]
+})
+print("\n=== CAPSTONE BENCHMARK: FULL 4D SENSORS vs 2D PCA COMPRESSION ===")
+print(results.to_string(index=False))
+```

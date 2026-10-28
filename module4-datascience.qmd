@@ -1,0 +1,208 @@
+---
+title: "Day 1, Session 1: The Data Science Process & Exploration"
+subtitle: "GNEST305 Module 4 — Basics of Data Science, Lifecycle, Big Data & Visual Exploration (2.0 Hours)"
+format: live-html
+engine: knitr
+---
+
+
+## Why Start with Module 4?
+
+Before we decompose matrices (Module 2), derive Maximum Likelihood Estimators (Module 3), or train Deep Neural Networks (Module 1), an AI engineer must understand **how raw observations become a structured data matrix** $X \in \mathbb{R}^{n \times d}$ and how the **Data Science Process** guides every modeling decision.
+
+::: {.callout-note}
+### GNEST305 Module 4 Syllabus Checklist
+* **Benefits of Data Science** & role of Statistics and Machine Learning in Data Science
+* **The 6-Step Data Science Process** & **Modelling Process** (Text-5: Cielen & Meysman)
+* **Applications of ML in Data Science** & **Big Data vs. Data Science** (Volume, Velocity, Variety, Veracity)
+* **Visualization & Implementation Tools:** Python (`pandas`, `matplotlib`, `scikit-learn`), R, Tableau, PowerBI, MATLAB
+:::
+
+---
+
+## 1. The 6-Step Data Science Process (Cielen & Meysman)
+
+In *Introducing Data Science* (Text-5), the lifecycle of any data science or engineering AI project follows six iterative stages:
+
+1. **Setting the Research Goal:** Define the problem, context, deliverable, and success metrics (e.g., *Can we classify flower species or detect motor bearing wear with $>95\%$ accuracy?*).
+2. **Retrieving Data:** Collect internal/external data from databases, CSV logs, or IoT sensors.
+3. **Data Preparation (Cleansing, Transforming, Combining):** Handle missing values (`NaN`), outliers, unit mismatches, and feature scaling ($z$-score standardization).
+4. **Data Exploration (EDA):** Compute statistical summaries, plot histograms, boxplots, scatter matrices, and correlation heatmaps to spot patterns and anomalies.
+5. **Data Modeling (Statistics + Machine Learning):** Select features, split into Training and Testing sets, fit statistical/ML models, and evaluate generalization error.
+6. **Presentation & Automation:** Communicate findings via dashboards (Tableau, PowerBI, Quarto) or deploy automated real-time inference pipelines.
+
+### How Statistics, Machine Learning, and Big Data Fit Together
+
+| Pillar | Primary Question | Mathematical Focus | Role in GNEST305 |
+|:---|:---|:---|:---|
+| **Statistics** | *What can we infer about the population, and how certain are we?* | Probability distributions, MLE, hypothesis testing, OLS regression | **Module 3** |
+| **Linear Algebra** | *How do we represent and compress high-dimensional spaces?* | Vector spaces, eigenvalues, SVD, PCA | **Module 2** |
+| **Machine Learning** | *How do we learn generalizable decision boundaries from examples?* | Loss minimization, clustering, logistic regression, neural networks | **Module 1** |
+| **Big Data Engineering** | *How do we process data when $n$ or $d$ exceeds single-machine memory?* | Distributed storage/compute (Hadoop, Spark, streaming) across the **4 Vs** (Volume, Velocity, Variety, Veracity) | **Module 4** |
+
+---
+
+## 2. Primary Thread: Exploring & Preparing the Iris Data Matrix
+
+Every dataset in AI starts as a **feature matrix** $X \in \mathbb{R}^{n \times d}$ and (for supervised tasks) a **target vector** $y \in \mathbb{R}^n$:
+
+$$X = \begin{bmatrix} x_{11} & x_{12} & \dots & x_{1d} \\ x_{21} & x_{22} & \dots & x_{2d} \\ \vdots & \vdots & \ddots & \vdots \\ x_{n1} & x_{n2} & \dots & x_{nd} \end{bmatrix}, \quad y = \begin{bmatrix} y_1 \\ y_2 \\ \vdots \\ y_n \end{bmatrix}$$
+
+For the **Iris dataset**, $n = 150$ flowers and $d = 4$ continuous morphological measurements (in cm). Notice how features have different scales and variances—which is why **Step 3 (Data Preparation)** requires **Standardization ($z$-score scaling)**:
+
+$$z_{ij} = \frac{x_{ij} - \mu_j}{\sigma_j}$$
+
+Run the interactive block below to execute Steps 2, 3, and 4 of the Data Science Process on Iris:
+
+```{pyodide}
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.datasets import load_iris
+from sklearn.preprocessing import StandardScaler
+
+# Step 2: Retrieve Data
+iris = load_iris()
+X = iris.data
+y = iris.target
+feature_names = ['Sepal Length (cm)', 'Sepal Width (cm)', 'Petal Length (cm)', 'Petal Width (cm)']
+df = pd.DataFrame(X, columns=feature_names)
+df['Species'] = [iris.target_names[i] for i in y]
+
+# Step 3: Data Preparation - Check missing values & standardize features
+print("Missing values per column:\n", df.isnull().sum())
+
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+df_scaled = pd.DataFrame(X_scaled, columns=feature_names)
+print("\nSummary Statistics (Raw Data):")
+print(df.describe().loc[['mean', 'std', 'min', '50%', 'max']].round(2))
+
+# Step 4: Exploratory Data Visualization
+fig, axes = plt.subplots(1, 2, figsize=(11, 4.2))
+
+colors = ['#2563eb', '#0d9488', '#ea580c']
+for idx, species in enumerate(iris.target_names):
+    mask = (y == idx)
+    axes[0].scatter(X[mask, 2], X[mask, 3], label=species.capitalize(), color=colors[idx], alpha=0.8, edgecolors='k')
+
+axes[0].set_title("Iris Feature Space: Petal Length vs Petal Width")
+axes[0].set_xlabel("Petal Length (cm)")
+axes[0].set_ylabel("Petal Width (cm)")
+axes[0].legend()
+axes[0].grid(True, alpha=0.3)
+
+# Boxplot of standardized features to spot scale alignment and outliers
+axes[1].boxplot(X_scaled, labels=['Sepal L', 'Sepal W', 'Petal L', 'Petal W'], patch_artist=True)
+axes[1].set_title("Standardized Feature Distributions (Z-Scores)")
+axes[1].set_ylabel("Standard Deviations from Mean (z)")
+axes[1].grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+```
+
+---
+
+## 3. The Data Science Modelling Process: Train/Test Split & Baseline
+
+In **Step 5 (Data Modeling)**, we never evaluate a model on the exact same data used to fit its parameters—doing so causes **overfitting** (memorizing noise). Instead, we split $(X, y)$ into $(X_{\text{train}}, y_{\text{train}})$ and $(X_{\text{test}}, y_{\text{test}})$.
+
+Let's build a complete end-to-end **Data Science Baseline Pipeline** on Iris using a simple Decision Tree / Nearest Centroid baseline to demonstrate the modeling workflow before diving into the deep math in Sessions 2–4:
+
+```{pyodide}
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import NearestCentroid
+from sklearn.metrics import accuracy_score, confusion_matrix
+
+# 1. Split data: 70% training, 30% testing (stratified by species)
+X_train, X_test, y_train, y_test = train_test_split(
+    X_scaled, y, test_size=0.30, random_state=42, stratify=y
+)
+
+# 2. Fit a simple geometric baseline: Nearest Class Centroid
+model = NearestCentroid()
+model.fit(X_train, y_train)
+
+# 3. Evaluate on unseen test data
+y_pred = model.predict(X_test)
+acc = accuracy_score(y_test, y_pred)
+
+print(f"Train Set Size: {X_train.shape[0]} samples | Test Set Size: {X_test.shape[0]} samples")
+print(f"Baseline Test Accuracy: {acc*100:.2f}%\n")
+print("Confusion Matrix (Rows = True Species, Cols = Predicted Species):")
+print(pd.DataFrame(confusion_matrix(y_test, y_pred),
+                   index=iris.target_names, columns=iris.target_names))
+```
+
+---
+
+## 4. Engineering Practice: Predictive Maintenance Sensor Pipeline
+
+::: {.callout-warning}
+### Hands-On Engineering Challenge (Module 4 Application)
+An industrial plant logs 4 telemetry streams from 150 induction motors:
+`vibration_mm_s` (mm/s RMS), `temp_c` (°C), `current_amp` (Amps), and `acoustic_db` (dB).
+However, real sensor logs contain **missing values (`NaN`)** and **wildly different units** (2–8 mm/s vs 50–100 °C).
+
+1. Run the code below to impute missing sensor readings using the median, standardize the 4 sensor channels, and visualize the **Vibration vs. Temperature** operating regimes (`Normal`, `Bearing_Wear`, `Overheating_Fault`).
+2. **Experiment:** Change `test_size=0.30` or try classifying using only the first 2 sensors (`X_motor_scaled[:, :2]`) to see how sensor selection impacts diagnostic accuracy!
+:::
+
+```{pyodide}
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import NearestCentroid
+from sklearn.metrics import accuracy_score, classification_report
+
+# Generate realistic Motor Sensor Telemetry with 5% missing values
+np.random.seed(42)
+n_c = 50
+X_raw = np.vstack([
+    np.column_stack([np.random.normal(2.1, 0.35, n_c), np.random.normal(55.0, 3.5, n_c), np.random.normal(12.0, 1.1, n_c), np.random.normal(62.0, 3.0, n_c)]),
+    np.column_stack([np.random.normal(5.8, 0.65, n_c), np.random.normal(68.0, 4.0, n_c), np.random.normal(15.2, 1.4, n_c), np.random.normal(81.0, 4.2, n_c)]),
+    np.column_stack([np.random.normal(4.2, 0.55, n_c), np.random.normal(92.0, 5.0, n_c), np.random.normal(19.5, 1.6, n_c), np.random.normal(74.0, 3.8, n_c)])
+])
+y_motor = np.array([0]*n_c + [1]*n_c + [2]*n_c)
+labels = ['Normal', 'Bearing_Wear', 'Overheating_Fault']
+
+# Inject 8 random missing sensor readings (simulating packet drop)
+mask_nan = np.random.choice(X_raw.size, 8, replace=False)
+X_corrupted = X_raw.copy()
+X_corrupted.flat[mask_nan] = np.nan
+
+print(f"Corrupted Telemetry Missing Count: {np.isnan(X_corrupted).sum()} values")
+
+# Step 3: Data Cleansing (Median Imputation) + Standardization
+imputer = SimpleImputer(strategy='median')
+X_clean = imputer.fit_transform(X_corrupted)
+
+scaler_m = StandardScaler()
+X_motor_scaled = scaler_m.fit_transform(X_clean)
+
+# Step 4 & 5: Visualize & Fit Diagnostic Baseline
+X_tr, X_te, y_tr, y_te = train_test_split(X_motor_scaled, y_motor, test_size=0.30, random_state=42, stratify=y_motor)
+clf = NearestCentroid().fit(X_tr, y_tr)
+y_hat = clf.predict(X_te)
+
+print(f"Motor Fault Diagnostic Accuracy (All 4 Sensors): {accuracy_score(y_te, y_hat)*100:.2f}%\n")
+print(classification_report(y_te, y_hat, target_names=labels))
+
+# Plot Sensor Operating Regimes
+plt.figure(figsize=(7, 4.2))
+palette = ['#16a34a', '#d97706', '#dc2626']
+for i, lbl in enumerate(labels):
+    idx = (y_motor == i)
+    plt.scatter(X_clean[idx, 0], X_clean[idx, 1], label=lbl, color=palette[i], s=45, alpha=0.85, edgecolors='k')
+plt.xlabel("Vibration Velocity (mm/s RMS)")
+plt.ylabel("Winding Temperature (°C)")
+plt.title("Industrial Motor Telemetry: Operating Regimes")
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.tight_layout()
+plt.show()
+```

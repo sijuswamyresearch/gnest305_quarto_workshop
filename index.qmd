@@ -1,0 +1,108 @@
+---
+title: "GNEST305: Introduction to AI & Data Science"
+subtitle: "Two-Day Interactive Practical Workshop for Semester S3 B.Tech (Artificial Intelligence)"
+format: live-html
+engine: knitr
+
+---
+
+
+## Welcome to the 2-Day Interactive Workshop {.unnumbered}
+
+This interactive Quarto website is designed for **Semester S3 B.Tech Artificial Intelligence** students taking **GNEST305: Introduction to Artificial Intelligence and Data Science** (4 Credits, L:T:P:R = 3:1:0:0).
+
+Instead of treating **Linear Algebra**, **Probability & Statistics**, **Machine Learning**, and **Data Science Workflows** as isolated theoretical silos, we connect all four syllabus modules through **two continuous, hands-on data threads** running directly in your browser via `quarto-live` (`pyodide`):
+
+1. <span class="thread-badge-iris">Primary Thread: Iris Botanical Dataset</span> — A clean 4-feature, 150-sample dataset (`sepal_length`, `sepal_width`, `petal_length`, `petal_width`) used to build geometric and mathematical intuition from first principles.
+2. <span class="thread-badge-pm">Engineering Practice Thread: Industrial Motor Predictive Maintenance</span> — A realistic 4-sensor engineering dataset (`vibration_mm_s`, `temperature_c`, `current_amp`, `acoustic_db`) across 3 operating states (`Normal`, `Bearing_Wear`, `Overheating_Fault`) where you apply the exact same mathematical pipelines to diagnose industrial machinery.
+
+---
+
+## Two-Day Workshop Schedule (9 Hours Total)
+
+### Day 1: Data Representation & Geometric Foundations (4.5 Hours)
+
+| Time | Session | GNEST305 Module | Core Math & Algorithms | Hands-On Python Lab |
+|:---|:---|:---|:---|:---|
+| **09:00 – 11:00** (2.0 hrs) | **Session 1: The Data Science Pipeline** | **Module 4** (Basics of Data Science) | Data matrices $X \in \mathbb{R}^{n \times d}$, feature distributions, Big Data vs. Data Science, modeling lifecycle | Interactive EDA, statistical profiling & visualization on **Iris** $\rightarrow$ Practice on **Motor Sensors** |
+| **11:00 – 11:15** | *Break* | — | — | — |
+| **11:15 – 13:45** (2.5 hrs) | **Session 2: Linear Algebra & Dimensionality Reduction** | **Module 2** (Mathematical Foundations) | Covariance matrix $\Sigma$, Spectral Decomposition ($\Sigma = Q\Lambda Q^T$), Singular Value Decomposition ($X = U S V^T$), PCA projection | Implementing SVD & PCA from scratch in `numpy` on **Iris** (4D $\rightarrow$ 2D) $\rightarrow$ Compressing **4D Sensor Data** |
+
+### Day 2: Statistical Inference, Machine Learning & Neural Networks (4.5 Hours)
+
+| Time | Session | GNEST305 Module | Core Math & Algorithms | Hands-On Python Lab |
+|:---|:---|:---|:---|:---|
+| **09:00 – 11:15** (2.25 hrs) | **Session 3: Applied Probability & Statistical Estimation** | **Module 3** (Probability & Statistics) | Random variables, MLE ($\hat{\mu}, \hat{\sigma}^2$), Bayes' Theorem $P(Y|X)$, Pearson Correlation $r$, Ordinary Least Squares (OLS) | Gaussian MLE, Gaussian Naive Bayes classifier & OLS regression on **Iris** $\rightarrow$ Sensor degradation & fault probability |
+| **11:15 – 11:30** | *Break* | — | — | — |
+| **11:30 – 13:45** (2.25 hrs) | **Session 4: Machine Learning & Deep Neural Networks** | **Module 1** (Intro to AI & ML) | Supervised vs. Unsupervised, K-Means, Logistic Regression ($\sigma(z)$), Perceptron, Universal Approximation Theorem, MLP & Backprop | K-Means, Logistic Regression, and Deep MLP (Regression + Classification) on **Iris** $\rightarrow$ Full Predictive Maintenance Model |
+
+---
+
+## Syllabus Alignment & Course Outcomes (COs)
+
+| Course Outcome | Description | Bloom's Level | Workshop Coverage |
+|:---|:---|:---:|:---|
+| **CO1** | Apply the concept of machine learning algorithms including neural networks and supervised/unsupervised learning techniques for engineering applications. | **K3 (Apply)** | Day 2, Session 4 (`module1-ml-ann.qmd`) |
+| **CO2** | Apply advanced mathematical concepts such as matrix operations, singular values, and principal component analysis to analyze and solve engineering problems. | **K3 (Apply)** | Day 1, Session 2 (`module2-linear-algebra.qmd`) |
+| **CO3** | Analyze and interpret data using statistical methods including descriptive statistics, correlation, and regression analysis to derive meaningful insights and make informed decisions. | **K3 (Apply)** | Day 2, Session 3 (`module3-prob-stats.qmd`) |
+| **CO4** | Integrate statistical approaches and machine learning techniques to ensure practically feasible solutions in engineering contexts. | **K3 (Apply)** | Day 1, Session 1 (`module4-datascience.qmd`) & Capstone Lab (`practice-predictive-maintenance.qmd`) |
+
+---
+
+## Quick Interactive Warm-Up: Test Your Live Python Environment
+
+Click **Run Code** below to verify that `numpy`, `pandas`, and `scikit-learn` are active in your browser session and inspect both workshop datasets!
+
+```{pyodide}
+import numpy as np
+import pandas as pd
+from sklearn.datasets import load_iris
+
+# 1. Load our Primary Thread: The Iris Dataset
+iris = load_iris()
+df_iris = pd.DataFrame(iris.data, columns=['sepal_len', 'sepal_wid', 'petal_len', 'petal_wid'])
+df_iris['species'] = [iris.target_names[i] for i in iris.target]
+
+print("=== PRIMARY THREAD: IRIS DATASET (Shape:", df_iris.shape, ") ===")
+print(df_iris.head(4))
+
+# 2. Generate our Engineering Practice Thread: Industrial Motor Sensor Dataset
+np.random.seed(42)
+n_per_class = 50
+# States: 0 = Normal, 1 = Bearing_Wear, 2 = Overheating_Fault
+normal = np.column_stack([
+    np.random.normal(2.1, 0.35, n_per_class),  # vibration_mm_s
+    np.random.normal(55.0, 3.5, n_per_class),  # temperature_c
+    np.random.normal(12.0, 1.1, n_per_class),  # current_amp
+    np.random.normal(62.0, 3.0, n_per_class)   # acoustic_db
+])
+bearing = np.column_stack([
+    np.random.normal(5.8, 0.65, n_per_class),
+    np.random.normal(68.0, 4.0, n_per_class),
+    np.random.normal(15.2, 1.4, n_per_class),
+    np.random.normal(81.0, 4.2, n_per_class)
+])
+overheat = np.column_stack([
+    np.random.normal(4.2, 0.55, n_per_class),
+    np.random.normal(92.0, 5.0, n_per_class),
+    np.random.normal(19.5, 1.6, n_per_class),
+    np.random.normal(74.0, 3.8, n_per_class)
+])
+
+X_motor = np.vstack([normal, bearing, overheat])
+df_motor = pd.DataFrame(X_motor, columns=['vibration_mm_s', 'temp_c', 'current_amp', 'acoustic_db'])
+df_motor['status'] = ['Normal']*n_per_class + ['Bearing_Wear']*n_per_class + ['Overheating_Fault']*n_per_class
+
+print("\n=== PRACTICE THREAD: MOTOR PREDICTIVE MAINTENANCE (Shape:", df_motor.shape, ") ===")
+print(df_motor.groupby('status').mean().round(2))
+```
+
+---
+
+## Prescribed Textbooks & Video References
+
+1. **Text-1 (Module 2):** Gilbert Strang, *Introduction to Linear Algebra*, Wellesley-Cambridge Press, 6th Edition, 2023. ([MIT OCW Lecture 29: SVD](https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-29-singular-value-decomposition/))
+2. **Text-2 (Module 1):** Aurélien Géron, *Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow*, O'Reilly Media, 2nd Edition, 2022.
+3. **Text-3 (Math Reference):** Marc Peter Deisenroth, A. Aldo Faisal, and Cheng Soon Ong, *Mathematics for Machine Learning*, Cambridge University Press, 1st Edition, 2020.
+4. **Text-4 (Module 3):** S. C. Gupta and V. K. Kapoor, *Fundamentals of Mathematical Statistics*, Sultan Chand & Sons, 9th Edition, 2020. ([MIT OCW 18.650 Lecture 19](https://ocw.mit.edu/courses/18-650-statistics-for-applications-fall-2016/resources/lecture-19-video/))
+5. **Text-5 (Module 4):** Davy Cielen and Arno Meysman, *Introducing Data Science: Big Data, Machine Learning, and More, Using Python Tools*, Simon and Schuster, 2016. ([NPTEL Course 106106198](https://archive.nptel.ac.in/courses/106/106/106106198/))

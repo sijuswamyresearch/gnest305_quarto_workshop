@@ -1,0 +1,20 @@
+{
+  "index.qmd": {
+    "index.html": "59dc655d"
+  },
+  "module1-ml-ann.qmd": {
+    "module1-ml-ann.html": "907c52f5"
+  },
+  "module2-linear-algebra.qmd": {
+    "module2-linear-algebra.html": "0b4b616f"
+  },
+  "module3-prob-stats.qmd": {
+    "module3-prob-stats.html": "82025d33"
+  },
+  "module4-datascience.qmd": {
+    "module4-datascience.html": "4951f984"
+  },
+  "practice-predictive-maintenance.qmd": {
+    "practice-predictive-maintenance.html": "b49af9b3"
+  }
+}

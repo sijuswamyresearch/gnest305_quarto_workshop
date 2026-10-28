@@ -1,0 +1,410 @@
+[
+  {
+    "objectID": "practice-predictive-maintenance.html",
+    "href": "practice-predictive-maintenance.html",
+    "title": "Capstone Engineering Lab: End-to-End Predictive Maintenance",
+    "section": "",
+    "text": "In this final integrative lab, you will take the Industrial Motor Telemetry Dataset (vibration_mm_s, temp_c, current_amp, acoustic_db) and execute a unified 4-Module AI & Data Science Pipeline in a single runnable script. Use this template as the foundation for your 15-Mark Course Microproject!\n\n\n\nModule 4 (Data Science Process): Cleanse missing values, standardize the 4 sensor channels, and perform a stratified Train/Test split.\nModule 2 (Linear Algebra — SVD & PCA): Decompose the training covariance matrix via SVD (\\(X = USV^T\\)) and project the 4D sensors onto a 2D Principal Component health space.\nModule 3 (Probability & Statistics — MLE, Bayes & OLS): Estimate class-conditional Gaussian parameters via MLE, fit a Bayesian classifier, and compute the Least Squares Regression line between motor current and winding temperature.\nModule 1 (Machine Learning & Deep Neural Networks): Train K-Means, Logistic Regression, and a Multi-Layer Perceptron (MLPClassifier) on both the full 4D space and the 2D PCA-compressed space, comparing their diagnostic accuracy!",
+    "crumbs": [
+      "Overview & Schedule",
+      "Capstone Engineering Lab",
+      "Capstone Engineering Lab: End-to-End Predictive Maintenance"
+    ]
+  },
+  {
+    "objectID": "practice-predictive-maintenance.html#capstone-challenge-unifying-all-4-modules-of-gnest305",
+    "href": "practice-predictive-maintenance.html#capstone-challenge-unifying-all-4-modules-of-gnest305",
+    "title": "Capstone Engineering Lab: End-to-End Predictive Maintenance",
+    "section": "",
+    "text": "In this final integrative lab, you will take the Industrial Motor Telemetry Dataset (vibration_mm_s, temp_c, current_amp, acoustic_db) and execute a unified 4-Module AI & Data Science Pipeline in a single runnable script. Use this template as the foundation for your 15-Mark Course Microproject!\n\n\n\nModule 4 (Data Science Process): Cleanse missing values, standardize the 4 sensor channels, and perform a stratified Train/Test split.\nModule 2 (Linear Algebra — SVD & PCA): Decompose the training covariance matrix via SVD (\\(X = USV^T\\)) and project the 4D sensors onto a 2D Principal Component health space.\nModule 3 (Probability & Statistics — MLE, Bayes & OLS): Estimate class-conditional Gaussian parameters via MLE, fit a Bayesian classifier, and compute the Least Squares Regression line between motor current and winding temperature.\nModule 1 (Machine Learning & Deep Neural Networks): Train K-Means, Logistic Regression, and a Multi-Layer Perceptron (MLPClassifier) on both the full 4D space and the 2D PCA-compressed space, comparing their diagnostic accuracy!",
+    "crumbs": [
+      "Overview & Schedule",
+      "Capstone Engineering Lab",
+      "Capstone Engineering Lab: End-to-End Predictive Maintenance"
+    ]
+  },
+  {
+    "objectID": "module3-prob-stats.html",
+    "href": "module3-prob-stats.html",
+    "title": "Day 2, Session 3: Applied Probability & Statistical Estimation",
+    "section": "",
+    "text": "Real-world measurements—whether flower petals or motor vibration sensors—contain randomness and measurement noise. Module 3 (Text-4: Gupta & Kapoor, Fundamentals of Mathematical Statistics) gives us the mathematical tools to estimate distribution parameters, update beliefs using Bayes’ Theorem, and predict continuous outcomes via Least Squares Regression.\n\n\n\n\n\n\nGNEST305 Module 3 Syllabus Checklist\n\n\n\n\nBasics of Probability: Random variables (discrete & continuous), expectation \\(E[X]\\), variance \\(\\text{Var}(X)\\), statistical measures & summaries\nRules in Probability: Sum rule, product rule, conditional probability \\(P(A|B)\\), and Bayes’ Theorem and its Applications\nStatistical Estimation: Maximum Likelihood Estimator (MLE)\nCorrelation Analysis: Linear correlation (Pearson’s \\(r\\), direct problems)\nRegression Analysis: Linear regression using the Method of Least Squares (OLS)",
+    "crumbs": [
+      "Overview & Schedule",
+      "Day 2: Statistical Inference & Learning (4.5 Hrs)",
+      "Day 2, Session 3: Applied Probability & Statistical Estimation"
+    ]
+  },
+  {
+    "objectID": "module3-prob-stats.html#why-probability-statistics-power-ai-under-uncertainty",
+    "href": "module3-prob-stats.html#why-probability-statistics-power-ai-under-uncertainty",
+    "title": "Day 2, Session 3: Applied Probability & Statistical Estimation",
+    "section": "",
+    "text": "Real-world measurements—whether flower petals or motor vibration sensors—contain randomness and measurement noise. Module 3 (Text-4: Gupta & Kapoor, Fundamentals of Mathematical Statistics) gives us the mathematical tools to estimate distribution parameters, update beliefs using Bayes’ Theorem, and predict continuous outcomes via Least Squares Regression.\n\n\n\n\n\n\nGNEST305 Module 3 Syllabus Checklist\n\n\n\n\nBasics of Probability: Random variables (discrete & continuous), expectation \\(E[X]\\), variance \\(\\text{Var}(X)\\), statistical measures & summaries\nRules in Probability: Sum rule, product rule, conditional probability \\(P(A|B)\\), and Bayes’ Theorem and its Applications\nStatistical Estimation: Maximum Likelihood Estimator (MLE)\nCorrelation Analysis: Linear correlation (Pearson’s \\(r\\), direct problems)\nRegression Analysis: Linear regression using the Method of Least Squares (OLS)",
+    "crumbs": [
+      "Overview & Schedule",
+      "Day 2: Statistical Inference & Learning (4.5 Hrs)",
+      "Day 2, Session 3: Applied Probability & Statistical Estimation"
+    ]
+  },
+  {
+    "objectID": "module3-prob-stats.html#random-variables-statistical-summaries-maximum-likelihood-estimation-mle",
+    "href": "module3-prob-stats.html#random-variables-statistical-summaries-maximum-likelihood-estimation-mle",
+    "title": "Day 2, Session 3: Applied Probability & Statistical Estimation",
+    "section": "2 1. Random Variables, Statistical Summaries & Maximum Likelihood Estimation (MLE)",
+    "text": "2 1. Random Variables, Statistical Summaries & Maximum Likelihood Estimation (MLE)\nSuppose we model a continuous feature \\(X\\) (such as Iris petal_length within a species) as a Gaussian (Normal) Random Variable \\(X \\sim \\mathcal{N}(\\mu, \\sigma^2)\\) with probability density function (PDF):\n\\[f(x \\mid \\mu, \\sigma^2) = \\frac{1}{\\sqrt{2\\pi \\sigma^2}} \\exp\\left(-\\frac{(x - \\mu)^2}{2\\sigma^2}\\right)\\]\nGiven \\(n\\) independent and identically distributed (i.i.d.) observations \\(\\{x_1, x_2, \\dots, x_n\\}\\), how do we estimate the unknown parameters \\(\\theta = (\\mu, \\sigma^2)\\)?\n\nMaximum Likelihood Estimation (MLE): We write the Likelihood Function \\(L(\\mu, \\sigma^2) = \\prod_{i=1}^n f(x_i \\mid \\mu, \\sigma^2)\\) and maximize its natural logarithm, the Log-Likelihood \\(\\ell(\\mu, \\sigma^2) = \\ln L(\\mu, \\sigma^2)\\):\n\\[\\ell(\\mu, \\sigma^2) = -\\frac{n}{2}\\ln(2\\pi) - \\frac{n}{2}\\ln(\\sigma^2) - \\frac{1}{2\\sigma^2}\\sum_{i=1}^n (x_i - \\mu)^2\\]\nSetting the partial derivatives \\(\\frac{\\partial \\ell}{\\partial \\mu} = 0\\) and \\(\\frac{\\partial \\ell}{\\partial (\\sigma^2)} = 0\\) yields the closed-form MLE Estimators:\n\\[\\hat{\\mu}_{\\text{MLE}} = \\frac{1}{n}\\sum_{i=1}^n x_i, \\qquad \\hat{\\sigma}^2_{\\text{MLE}} = \\frac{1}{n}\\sum_{i=1}^n (x_i - \\hat{\\mu}_{\\text{MLE}})^2\\]\n\nLet’s verify this both analytically and by plotting the Log-Likelihood surface on the Iris dataset!",
+    "crumbs": [
+      "Overview & Schedule",
+      "Day 2: Statistical Inference & Learning (4.5 Hrs)",
+      "Day 2, Session 3: Applied Probability & Statistical Estimation"
+    ]
+  },
+  {
+    "objectID": "module3-prob-stats.html#bayes-theorem-and-its-ai-application-gaussian-naive-bayes",
+    "href": "module3-prob-stats.html#bayes-theorem-and-its-ai-application-gaussian-naive-bayes",
+    "title": "Day 2, Session 3: Applied Probability & Statistical Estimation",
+    "section": "3 2. Bayes’ Theorem and Its AI Application: Gaussian Naive Bayes",
+    "text": "3 2. Bayes’ Theorem and Its AI Application: Gaussian Naive Bayes\nOnce we have estimated the class-conditional likelihoods \\(P(X \\mid C_k)\\) via MLE, how do we flip the conditioning to predict the posterior probability of class \\(C_k\\) given a new measurement \\(x\\)? We apply Bayes’ Theorem:\n\\[P(C_k \\mid x) = \\frac{P(x \\mid C_k) \\, P(C_k)}{P(x)} = \\frac{P(x \\mid C_k) \\, P(C_k)}{\\sum_{j=1}^K P(x \\mid C_j) \\, P(C_j)}\\]\n\nPrior \\(P(C_k)\\): Base rate of class \\(k\\) before seeing the features (\\(1/3\\) each in Iris).\nLikelihood \\(P(x \\mid C_k)\\): Evaluated from our MLE Gaussian density \\(\\prod_{j=1}^d \\mathcal{N}(x_j \\mid \\hat{\\mu}_{kj}, \\hat{\\sigma}^2_{kj})\\).\nPosterior \\(P(C_k \\mid x)\\): Exact probability that flower \\(x\\) belongs to species \\(C_k\\)!\n\nLet’s compute the exact Bayesian posterior probabilities for a mystery flower with petal_length = 4.8 cm:",
+    "crumbs": [
+      "Overview & Schedule",
+      "Day 2: Statistical Inference & Learning (4.5 Hrs)",
+      "Day 2, Session 3: Applied Probability & Statistical Estimation"
+    ]
+  },
+  {
+    "objectID": "module3-prob-stats.html#linear-correlation-r-least-squares-linear-regression-ols",
+    "href": "module3-prob-stats.html#linear-correlation-r-least-squares-linear-regression-ols",
+    "title": "Day 2, Session 3: Applied Probability & Statistical Estimation",
+    "section": "4 3. Linear Correlation (\\(r\\)) & Least Squares Linear Regression (OLS)",
+    "text": "4 3. Linear Correlation (\\(r\\)) & Least Squares Linear Regression (OLS)\nIn engineering and data science, we frequently need to quantify the linear association between two continuous variables \\((X, Y)\\) and predict \\(Y\\) from \\(X\\).\n\n1. Karl Pearson’s Coefficient of Linear Correlation (\\(r\\)): \\[r = \\frac{\\text{Cov}(X, Y)}{\\sigma_X \\sigma_Y} = \\frac{\\sum_{i=1}^n (x_i - \\bar{x})(y_i - \\bar{y})}{\\sqrt{\\sum_{i=1}^n (x_i - \\bar{x})^2} \\sqrt{\\sum_{i=1}^n (y_i - \\bar{y})^2}} \\in [-1, +1]\\]\n2. Linear Regression via Method of Least Squares (OLS): We fit the line \\(\\hat{y}_i = \\beta_0 + \\beta_1 x_i\\) by minimizing the Residual Sum of Squares (RSS): \\[\\text{RSS}(\\beta_0, \\beta_1) = \\sum_{i=1}^n (y_i - (\\beta_0 + \\beta_1 x_i))^2\\] Setting \\(\\frac{\\partial \\text{RSS}}{\\partial \\beta_0} = 0\\) and \\(\\frac{\\partial \\text{RSS}}{\\partial \\beta_1} = 0\\) gives the normal equations with closed-form solution: \\[\\hat{\\beta}_1 = \\frac{\\sum_{i=1}^n (x_i - \\bar{x})(y_i - \\bar{y})}{\\sum_{i=1}^n (x_i - \\bar{x})^2} = r \\frac{s_Y}{s_X}, \\qquad \\hat{\\beta}_0 = \\bar{y} - \\hat{\\beta}_1 \\bar{x}\\]\n\nLet’s compute the 4x4 Correlation Matrix of Iris and fit an exact Least Squares Regression line predicting Petal Width (\\(Y\\)) from Petal Length (\\(X\\)):",
+    "crumbs": [
+      "Overview & Schedule",
+      "Day 2: Statistical Inference & Learning (4.5 Hrs)",
+      "Day 2, Session 3: Applied Probability & Statistical Estimation"
+    ]
+  },
+  {
+    "objectID": "module3-prob-stats.html#engineering-practice-bayesian-fault-diagnosis-sensor-regression",
+    "href": "module3-prob-stats.html#engineering-practice-bayesian-fault-diagnosis-sensor-regression",
+    "title": "Day 2, Session 3: Applied Probability & Statistical Estimation",
+    "section": "5 4. Engineering Practice: Bayesian Fault Diagnosis & Sensor Regression",
+    "text": "5 4. Engineering Practice: Bayesian Fault Diagnosis & Sensor Regression\n\n\n\n\n\n\nHands-On Engineering Challenge (Module 3 Application)\n\n\n\nApply your Module 3 toolkit to our Motor Predictive Maintenance dataset: 1. Correlation & OLS Regression: Compute Pearson’s \\(r\\) between Motor Current (current_amp) and Winding Temperature (temp_c), and fit the Least Squares line predicting temperature from current draw. 2. Bayesian Fault Detector: Train a full 4-feature GaussianNB (which uses MLE + Bayes’ Theorem under the hood) and evaluate its probability calibration on a motor running at [vibration=5.5, temp=70.0, current=15.0, acoustic=80.0].",
+    "crumbs": [
+      "Overview & Schedule",
+      "Day 2: Statistical Inference & Learning (4.5 Hrs)",
+      "Day 2, Session 3: Applied Probability & Statistical Estimation"
+    ]
+  },
+  {
+    "objectID": "module1-ml-ann.html",
+    "href": "module1-ml-ann.html",
+    "title": "Day 2, Session 4: Machine Learning Systems & Deep Neural Networks",
+    "section": "",
+    "text": "Welcome to the culmination of our 2-day workshop! In Module 1 (Text-2: Aurélien Géron, Hands-On Machine Learning), we combine Linear Algebra (matrix-vector products \\(Wx + b\\) from Module 2) and Probability/Optimization (log-likelihood/cross-entropy and least squares from Module 3) to build Machine Learning & Deep Neural Network models.\n\n\n\n\n\n\nGNEST305 Module 1 Syllabus Checklist\n\n\n\n\nBasics of Machine Learning: Types of ML systems (Supervised, Unsupervised, Semi-supervised, Reinforcement Learning) & Challenges in ML (overfitting, underfitting, non-representative data, poor quality data, irrelevant features)\nSupervised Learning Models: Regression models & Classification model example — Logistic Regression\nUnsupervised Learning Model: K-Means Clustering\nArtificial Neural Networks (ANN): Biological vs. Artificial neuron, Perceptron, Universal Approximation Theorem (Statement Only)\nMulti-Layer Perceptron (MLP) & Deep Neural Networks (DNN): Demonstration of both Regression and Classification problems using MLP",
+    "crumbs": [
+      "Overview & Schedule",
+      "Day 2: Statistical Inference & Learning (4.5 Hrs)",
+      "Day 2, Session 4: Machine Learning Systems & Deep Neural Networks"
+    ]
+  },
+  {
+    "objectID": "module1-ml-ann.html#synthesizing-math-into-learning-machines",
+    "href": "module1-ml-ann.html#synthesizing-math-into-learning-machines",
+    "title": "Day 2, Session 4: Machine Learning Systems & Deep Neural Networks",
+    "section": "",
+    "text": "Welcome to the culmination of our 2-day workshop! In Module 1 (Text-2: Aurélien Géron, Hands-On Machine Learning), we combine Linear Algebra (matrix-vector products \\(Wx + b\\) from Module 2) and Probability/Optimization (log-likelihood/cross-entropy and least squares from Module 3) to build Machine Learning & Deep Neural Network models.\n\n\n\n\n\n\nGNEST305 Module 1 Syllabus Checklist\n\n\n\n\nBasics of Machine Learning: Types of ML systems (Supervised, Unsupervised, Semi-supervised, Reinforcement Learning) & Challenges in ML (overfitting, underfitting, non-representative data, poor quality data, irrelevant features)\nSupervised Learning Models: Regression models & Classification model example — Logistic Regression\nUnsupervised Learning Model: K-Means Clustering\nArtificial Neural Networks (ANN): Biological vs. Artificial neuron, Perceptron, Universal Approximation Theorem (Statement Only)\nMulti-Layer Perceptron (MLP) & Deep Neural Networks (DNN): Demonstration of both Regression and Classification problems using MLP",
+    "crumbs": [
+      "Overview & Schedule",
+      "Day 2: Statistical Inference & Learning (4.5 Hrs)",
+      "Day 2, Session 4: Machine Learning Systems & Deep Neural Networks"
+    ]
+  },
+  {
+    "objectID": "module1-ml-ann.html#types-of-machine-learning-core-challenges",
+    "href": "module1-ml-ann.html#types-of-machine-learning-core-challenges",
+    "title": "Day 2, Session 4: Machine Learning Systems & Deep Neural Networks",
+    "section": "2 1. Types of Machine Learning & Core Challenges",
+    "text": "2 1. Types of Machine Learning & Core Challenges\n\n\n\n\n\n\n\n\n\nCategory\nTraining Signal\nSyllabus Algorithms\nIris & Motor Examples\n\n\n\n\nSupervised Learning (Regression)\nContinuous target \\(y_i \\in \\mathbb{R}\\)\nLinear Regression, MLP Regressor\nPredict exact petal_width or motor temperature_c\n\n\nSupervised Learning (Classification)\nDiscrete class label \\(y_i \\in \\{1,\\dots,K\\}\\)\nLogistic Regression, Perceptron, MLP Classifier\nClassify flower species or motor fault state\n\n\nUnsupervised Learning\nUnlabeled matrix \\(X \\in \\mathbb{R}^{n \\times d}\\)\nK-Means Clustering, PCA (Module 2)\nDiscover natural clusters in unlabeled sensor streams\n\n\n\n\n2.1 Key Challenges in Machine Learning (Géron, Ch. 1)\n\nData Challenges: Insufficient quantity of training data, non-representative training data (sampling bias), poor-quality data (noise, missing values), and irrelevant features (garbage in, garbage out).\nAlgorithm Challenges:\n\nUnderfitting (High Bias): Model is too simple to capture underlying structure (e.g., fitting a linear boundary to non-linear data). Remedy: more complex model, better features, less regularization.\nOverfitting (High Variance): Model memorizes training noise and fails to generalize to unseen test data. Remedy: regularization (\\(L_1/L_2\\)), more training data, early stopping.",
+    "crumbs": [
+      "Overview & Schedule",
+      "Day 2: Statistical Inference & Learning (4.5 Hrs)",
+      "Day 2, Session 4: Machine Learning Systems & Deep Neural Networks"
+    ]
+  },
+  {
+    "objectID": "module1-ml-ann.html#unsupervised-learning-k-means-clustering",
+    "href": "module1-ml-ann.html#unsupervised-learning-k-means-clustering",
+    "title": "Day 2, Session 4: Machine Learning Systems & Deep Neural Networks",
+    "section": "3 2. Unsupervised Learning: K-Means Clustering",
+    "text": "3 2. Unsupervised Learning: K-Means Clustering\nGiven unlabeled points \\(\\{x_1, \\dots, x_n\\} \\subset \\mathbb{R}^d\\), K-Means partitions the data into \\(K\\) clusters \\(C_1, \\dots, C_K\\) with centroids \\(\\mu_1, \\dots, \\mu_K\\) to minimize the Within-Cluster Sum of Squares (Inertia \\(J\\)):\n\\[J(\\mu_1, \\dots, \\mu_K) = \\sum_{k=1}^K \\sum_{x_i \\in C_k} \\|x_i - \\mu_k\\|_2^2\\]\nIt alternates two steps until convergence: 1. Assignment Step: Assign each point \\(x_i\\) to its nearest centroid: \\(c^{(i)} = \\arg\\min_k \\|x_i - \\mu_k\\|_2^2\\). 2. Update Step: Recompute each centroid as the mean of its assigned points: \\(\\mu_k = \\frac{1}{|C_k|}\\sum_{x_i \\in C_k} x_i\\).",
+    "crumbs": [
+      "Overview & Schedule",
+      "Day 2: Statistical Inference & Learning (4.5 Hrs)",
+      "Day 2, Session 4: Machine Learning Systems & Deep Neural Networks"
+    ]
+  },
+  {
+    "objectID": "module1-ml-ann.html#supervised-classification-logistic-regression",
+    "href": "module1-ml-ann.html#supervised-classification-logistic-regression",
+    "title": "Day 2, Session 4: Machine Learning Systems & Deep Neural Networks",
+    "section": "4 3. Supervised Classification: Logistic Regression",
+    "text": "4 3. Supervised Classification: Logistic Regression\nDespite its name, Logistic Regression is a probabilistic classification model. For binary classification, it passes the linear score (logit) \\(z = w^T x + b\\) through the Logistic Sigmoid function \\(\\sigma(z)\\):\n\\[\\hat{p} = P(y=1 \\mid x) = \\sigma(w^T x + b) = \\frac{1}{1 + e^{-(w^T x + b)}} \\in (0, 1)\\]\nFor \\(K &gt; 2\\) classes (Multinomial Logistic Regression / Softmax), we compute \\(z_k = w_k^T x + b_k\\) and apply the Softmax function:\n\\[P(y=k \\mid x) = \\frac{e^{z_k}}{\\sum_{j=1}^K e^{z_j}}\\]\nParameters \\((W, b)\\) are trained by minimizing the Cross-Entropy Loss (which is equivalent to Maximum Likelihood Estimation from Module 3!).",
+    "crumbs": [
+      "Overview & Schedule",
+      "Day 2: Statistical Inference & Learning (4.5 Hrs)",
+      "Day 2, Session 4: Machine Learning Systems & Deep Neural Networks"
+    ]
+  },
+  {
+    "objectID": "module1-ml-ann.html#artificial-neural-networks-perceptron-uat-deep-mlps",
+    "href": "module1-ml-ann.html#artificial-neural-networks-perceptron-uat-deep-mlps",
+    "title": "Day 2, Session 4: Machine Learning Systems & Deep Neural Networks",
+    "section": "5 4. Artificial Neural Networks: Perceptron, UAT & Deep MLPs",
+    "text": "5 4. Artificial Neural Networks: Perceptron, UAT & Deep MLPs\n\n5.1 The Perceptron (Rosenblatt, 1957)\nA Perceptron is the simplest artificial neuron. It computes a weighted sum of inputs plus a bias, \\(z = w^T x + b = \\sum_{j=1}^d w_j x_j + b\\), and applies a Heaviside step activation function:\n\\[\\hat{y} = \\text{step}(z) = \\begin{cases} 1 & \\text{if } w^T x + b \\ge 0 \\\\ 0 & \\text{if } w^T x + b &lt; 0 \\end{cases}\\]\nLimitation (Minsky & Papert, 1969): A single-layer Perceptron can only learn linearly separable patterns (it cannot solve the XOR problem).\n\n\n5.2 Multi-Layer Perceptron (MLP) & Deep Neural Networks (DNN)\nBy stacking one or more hidden layers of neurons with non-linear activation functions \\(g(\\cdot)\\) (such as ReLU \\(g(z) = \\max(0, z)\\), Sigmoid \\(\\sigma(z)\\), or Tanh \\(\\tanh(z)\\)), we form a Multi-Layer Perceptron (MLP). When an MLP has multiple hidden layers, it is called a Deep Neural Network (DNN):\n\\[h^{(1)} = g\\big(W^{(1)} x + b^{(1)}\\big), \\quad h^{(2)} = g\\big(W^{(2)} h^{(1)} + b^{(2)}\\big), \\quad \\hat{y} = \\text{Output}\\big(W^{(3)} h^{(2)} + b^{(3)}\\big)\\]\n\nUniversal Approximation Theorem (Statement Only — Syllabus Requirement): A feedforward neural network (Multi-Layer Perceptron) with a single hidden layer containing a finite number of neurons and a continuous, non-polynomial activation function (such as sigmoid or ReLU) can approximate any continuous function \\(f: K \\subset \\mathbb{R}^d \\to \\mathbb{R}^m\\) on a compact subset \\(K\\) of \\(\\mathbb{R}^d\\) to any desired degree of accuracy \\(\\varepsilon &gt; 0\\), provided sufficient hidden units are available.\n\n\n\n5.3 Syllabus Demonstration: Both Regression and Classification using MLP\nIn the interactive code block below, we demonstrate both syllabus problems using Multi-Layer Perceptrons on the Iris dataset: 1. MLP Regression (MLPRegressor): Using sepal_length, sepal_width, and petal_length (\\(\\mathbb{R}^3\\)) to predict continuous petal_width (\\(\\mathbb{R}\\)), evaluated via RMSE and \\(R^2\\). 2. MLP Classification (MLPClassifier): Using a Deep Neural Network with two hidden layers (16, 8) and ReLU activations to classify all 3 Iris species, plotting the training loss convergence curve!",
+    "crumbs": [
+      "Overview & Schedule",
+      "Day 2: Statistical Inference & Learning (4.5 Hrs)",
+      "Day 2, Session 4: Machine Learning Systems & Deep Neural Networks"
+    ]
+  },
+  {
+    "objectID": "module1-ml-ann.html#engineering-practice-deep-mlp-k-means-for-motor-predictive-maintenance",
+    "href": "module1-ml-ann.html#engineering-practice-deep-mlp-k-means-for-motor-predictive-maintenance",
+    "title": "Day 2, Session 4: Machine Learning Systems & Deep Neural Networks",
+    "section": "6 5. Engineering Practice: Deep MLP & K-Means for Motor Predictive Maintenance",
+    "text": "6 5. Engineering Practice: Deep MLP & K-Means for Motor Predictive Maintenance\n\n\n\n\n\n\nHands-On Engineering Challenge (Module 1 Application)\n\n\n\nNow apply K-Means, Logistic Regression, and Deep MLPs (Regression + Classification) to our Motor Predictive Maintenance dataset! 1. Run the code below to compare Unsupervised K-Means, Logistic Regression, and a Deep Neural Network (MLPClassifier) on diagnosing motor faults, plus an MLPRegressor that estimates winding temperature from vibration, current, and acoustic noise. 2. Experiment: Change hidden_layer_sizes=(32, 16) or change activation='tanh' to observe how network architecture impacts convergence!",
+    "crumbs": [
+      "Overview & Schedule",
+      "Day 2: Statistical Inference & Learning (4.5 Hrs)",
+      "Day 2, Session 4: Machine Learning Systems & Deep Neural Networks"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "GNEST305: Introduction to AI & Data Science",
+    "section": "",
+    "text": "This interactive Quarto website is designed for Semester S3 B.Tech Artificial Intelligence students taking GNEST305: Introduction to Artificial Intelligence and Data Science (4 Credits, L:T:P:R = 3:1:0:0).\nInstead of treating Linear Algebra, Probability & Statistics, Machine Learning, and Data Science Workflows as isolated theoretical silos, we connect all four syllabus modules through two continuous, hands-on data threads running directly in your browser via quarto-live (pyodide):\n\nPrimary Thread: Iris Botanical Dataset — A clean 4-feature, 150-sample dataset (sepal_length, sepal_width, petal_length, petal_width) used to build geometric and mathematical intuition from first principles.\nEngineering Practice Thread: Industrial Motor Predictive Maintenance — A realistic 4-sensor engineering dataset (vibration_mm_s, temperature_c, current_amp, acoustic_db) across 3 operating states (Normal, Bearing_Wear, Overheating_Fault) where you apply the exact same mathematical pipelines to diagnose industrial machinery.",
+    "crumbs": [
+      "Overview & Schedule",
+      "Workshop Overview",
+      "GNEST305: Introduction to AI & Data Science"
+    ]
+  },
+  {
+    "objectID": "index.html#welcome-to-the-2-day-interactive-workshop",
+    "href": "index.html#welcome-to-the-2-day-interactive-workshop",
+    "title": "GNEST305: Introduction to AI & Data Science",
+    "section": "",
+    "text": "This interactive Quarto website is designed for Semester S3 B.Tech Artificial Intelligence students taking GNEST305: Introduction to Artificial Intelligence and Data Science (4 Credits, L:T:P:R = 3:1:0:0).\nInstead of treating Linear Algebra, Probability & Statistics, Machine Learning, and Data Science Workflows as isolated theoretical silos, we connect all four syllabus modules through two continuous, hands-on data threads running directly in your browser via quarto-live (pyodide):\n\nPrimary Thread: Iris Botanical Dataset — A clean 4-feature, 150-sample dataset (sepal_length, sepal_width, petal_length, petal_width) used to build geometric and mathematical intuition from first principles.\nEngineering Practice Thread: Industrial Motor Predictive Maintenance — A realistic 4-sensor engineering dataset (vibration_mm_s, temperature_c, current_amp, acoustic_db) across 3 operating states (Normal, Bearing_Wear, Overheating_Fault) where you apply the exact same mathematical pipelines to diagnose industrial machinery.",
+    "crumbs": [
+      "Overview & Schedule",
+      "Workshop Overview",
+      "GNEST305: Introduction to AI & Data Science"
+    ]
+  },
+  {
+    "objectID": "index.html#two-day-workshop-schedule-9-hours-total",
+    "href": "index.html#two-day-workshop-schedule-9-hours-total",
+    "title": "GNEST305: Introduction to AI & Data Science",
+    "section": "1 Two-Day Workshop Schedule (9 Hours Total)",
+    "text": "1 Two-Day Workshop Schedule (9 Hours Total)\n\n1.1 Day 1: Data Representation & Geometric Foundations (4.5 Hours)\n\n\n\n\n\n\n\n\n\n\nTime\nSession\nGNEST305 Module\nCore Math & Algorithms\nHands-On Python Lab\n\n\n\n\n09:00 – 11:00 (2.0 hrs)\nSession 1: The Data Science Pipeline\nModule 4 (Basics of Data Science)\nData matrices \\(X \\in \\mathbb{R}^{n \\times d}\\), feature distributions, Big Data vs. Data Science, modeling lifecycle\nInteractive EDA, statistical profiling & visualization on Iris \\(\\rightarrow\\) Practice on Motor Sensors\n\n\n11:00 – 11:15\nBreak\n—\n—\n—\n\n\n11:15 – 13:45 (2.5 hrs)\nSession 2: Linear Algebra & Dimensionality Reduction\nModule 2 (Mathematical Foundations)\nCovariance matrix \\(\\Sigma\\), Spectral Decomposition (\\(\\Sigma = Q\\Lambda Q^T\\)), Singular Value Decomposition (\\(X = U S V^T\\)), PCA projection\nImplementing SVD & PCA from scratch in numpy on Iris (4D \\(\\rightarrow\\) 2D) \\(\\rightarrow\\) Compressing 4D Sensor Data\n\n\n\n\n\n1.2 Day 2: Statistical Inference, Machine Learning & Neural Networks (4.5 Hours)\n\n\n\n\n\n\n\n\n\n\nTime\nSession\nGNEST305 Module\nCore Math & Algorithms\nHands-On Python Lab\n\n\n\n\n09:00 – 11:15 (2.25 hrs)\nSession 3: Applied Probability & Statistical Estimation\nModule 3 (Probability & Statistics)\nRandom variables, MLE (\\(\\hat{\\mu}, \\hat{\\sigma}^2\\)), Bayes’ Theorem \\(P(Y|X)\\), Pearson Correlation \\(r\\), Ordinary Least Squares (OLS)\nGaussian MLE, Gaussian Naive Bayes classifier & OLS regression on Iris \\(\\rightarrow\\) Sensor degradation & fault probability\n\n\n11:15 – 11:30\nBreak\n—\n—\n—\n\n\n11:30 – 13:45 (2.25 hrs)\nSession 4: Machine Learning & Deep Neural Networks\nModule 1 (Intro to AI & ML)\nSupervised vs. Unsupervised, K-Means, Logistic Regression (\\(\\sigma(z)\\)), Perceptron, Universal Approximation Theorem, MLP & Backprop\nK-Means, Logistic Regression, and Deep MLP (Regression + Classification) on Iris \\(\\rightarrow\\) Full Predictive Maintenance Model",
+    "crumbs": [
+      "Overview & Schedule",
+      "Workshop Overview",
+      "GNEST305: Introduction to AI & Data Science"
+    ]
+  },
+  {
+    "objectID": "index.html#syllabus-alignment-course-outcomes-cos",
+    "href": "index.html#syllabus-alignment-course-outcomes-cos",
+    "title": "GNEST305: Introduction to AI & Data Science",
+    "section": "2 Syllabus Alignment & Course Outcomes (COs)",
+    "text": "2 Syllabus Alignment & Course Outcomes (COs)\n\n\n\n\n\n\n\n\n\nCourse Outcome\nDescription\nBloom’s Level\nWorkshop Coverage\n\n\n\n\nCO1\nApply the concept of machine learning algorithms including neural networks and supervised/unsupervised learning techniques for engineering applications.\nK3 (Apply)\nDay 2, Session 4 (module1-ml-ann.qmd)\n\n\nCO2\nApply advanced mathematical concepts such as matrix operations, singular values, and principal component analysis to analyze and solve engineering problems.\nK3 (Apply)\nDay 1, Session 2 (module2-linear-algebra.qmd)\n\n\nCO3\nAnalyze and interpret data using statistical methods including descriptive statistics, correlation, and regression analysis to derive meaningful insights and make informed decisions.\nK3 (Apply)\nDay 2, Session 3 (module3-prob-stats.qmd)\n\n\nCO4\nIntegrate statistical approaches and machine learning techniques to ensure practically feasible solutions in engineering contexts.\nK3 (Apply)\nDay 1, Session 1 (module4-datascience.qmd) & Capstone Lab (practice-predictive-maintenance.qmd)",
+    "crumbs": [
+      "Overview & Schedule",
+      "Workshop Overview",
+      "GNEST305: Introduction to AI & Data Science"
+    ]
+  },
+  {
+    "objectID": "index.html#quick-interactive-warm-up-test-your-live-python-environment",
+    "href": "index.html#quick-interactive-warm-up-test-your-live-python-environment",
+    "title": "GNEST305: Introduction to AI & Data Science",
+    "section": "3 Quick Interactive Warm-Up: Test Your Live Python Environment",
+    "text": "3 Quick Interactive Warm-Up: Test Your Live Python Environment\nClick Run Code below to verify that numpy, pandas, and scikit-learn are active in your browser session and inspect both workshop datasets!",
+    "crumbs": [
+      "Overview & Schedule",
+      "Workshop Overview",
+      "GNEST305: Introduction to AI & Data Science"
+    ]
+  },
+  {
+    "objectID": "index.html#prescribed-textbooks-video-references",
+    "href": "index.html#prescribed-textbooks-video-references",
+    "title": "GNEST305: Introduction to AI & Data Science",
+    "section": "4 Prescribed Textbooks & Video References",
+    "text": "4 Prescribed Textbooks & Video References\n\nText-1 (Module 2): Gilbert Strang, Introduction to Linear Algebra, Wellesley-Cambridge Press, 6th Edition, 2023. (MIT OCW Lecture 29: SVD)\nText-2 (Module 1): Aurélien Géron, Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow, O’Reilly Media, 2nd Edition, 2022.\nText-3 (Math Reference): Marc Peter Deisenroth, A. Aldo Faisal, and Cheng Soon Ong, Mathematics for Machine Learning, Cambridge University Press, 1st Edition, 2020.\nText-4 (Module 3): S. C. Gupta and V. K. Kapoor, Fundamentals of Mathematical Statistics, Sultan Chand & Sons, 9th Edition, 2020. (MIT OCW 18.650 Lecture 19)\nText-5 (Module 4): Davy Cielen and Arno Meysman, Introducing Data Science: Big Data, Machine Learning, and More, Using Python Tools, Simon and Schuster, 2016. (NPTEL Course 106106198)",
+    "crumbs": [
+      "Overview & Schedule",
+      "Workshop Overview",
+      "GNEST305: Introduction to AI & Data Science"
+    ]
+  },
+  {
+    "objectID": "module2-linear-algebra.html",
+    "href": "module2-linear-algebra.html",
+    "title": "Day 1, Session 2: Mathematical Foundations — Linear Algebra, SVD & PCA",
+    "section": "",
+    "text": "In Session 1, we saw that both the Iris dataset and Motor Sensor Telemetry live in a 4-dimensional vector space \\(\\mathbb{R}^4\\) (\\(150 \\times 4\\) matrix). How can we visualize a 4D (or 1,000D) dataset on a 2D screen while losing the least possible information?\nThe answer lies in Module 2 (Text-1: Gilbert Strang, Introduction to Linear Algebra): Matrix Decompositions and Principal Component Analysis (PCA).\n\n\n\n\n\n\nGNEST305 Module 2 Syllabus Checklist\n\n\n\n\nRole of Linear Algebra in Data Representation and Analysis (Vectors, norms, inner products, projections, covariance matrices)\nMatrix Decomposition: Eigenvalues and Eigenvectors (\\(Av = \\lambda v\\))\nSpectral Decomposition (Eigendecomposition) of symmetric matrices (\\(\\Sigma = Q \\Lambda Q^T\\))\nSingular Value Decomposition (SVD): Factoring any matrix \\(X = U S V^T\\)\nDimensionality Reduction Technique: Principal Component Analysis (PCA)",
+    "crumbs": [
+      "Overview & Schedule",
+      "Day 1: Foundations & Representation (4.5 Hrs)",
+      "Day 1, Session 2: Mathematical Foundations — Linear Algebra, SVD & PCA"
+    ]
+  },
+  {
+    "objectID": "module2-linear-algebra.html#why-linear-algebra-is-the-engine-of-ai",
+    "href": "module2-linear-algebra.html#why-linear-algebra-is-the-engine-of-ai",
+    "title": "Day 1, Session 2: Mathematical Foundations — Linear Algebra, SVD & PCA",
+    "section": "",
+    "text": "In Session 1, we saw that both the Iris dataset and Motor Sensor Telemetry live in a 4-dimensional vector space \\(\\mathbb{R}^4\\) (\\(150 \\times 4\\) matrix). How can we visualize a 4D (or 1,000D) dataset on a 2D screen while losing the least possible information?\nThe answer lies in Module 2 (Text-1: Gilbert Strang, Introduction to Linear Algebra): Matrix Decompositions and Principal Component Analysis (PCA).\n\n\n\n\n\n\nGNEST305 Module 2 Syllabus Checklist\n\n\n\n\nRole of Linear Algebra in Data Representation and Analysis (Vectors, norms, inner products, projections, covariance matrices)\nMatrix Decomposition: Eigenvalues and Eigenvectors (\\(Av = \\lambda v\\))\nSpectral Decomposition (Eigendecomposition) of symmetric matrices (\\(\\Sigma = Q \\Lambda Q^T\\))\nSingular Value Decomposition (SVD): Factoring any matrix \\(X = U S V^T\\)\nDimensionality Reduction Technique: Principal Component Analysis (PCA)",
+    "crumbs": [
+      "Overview & Schedule",
+      "Day 1: Foundations & Representation (4.5 Hrs)",
+      "Day 1, Session 2: Mathematical Foundations — Linear Algebra, SVD & PCA"
+    ]
+  },
+  {
+    "objectID": "module2-linear-algebra.html#mean-centering-and-the-covariance-matrix-sigma",
+    "href": "module2-linear-algebra.html#mean-centering-and-the-covariance-matrix-sigma",
+    "title": "Day 1, Session 2: Mathematical Foundations — Linear Algebra, SVD & PCA",
+    "section": "2 1. Mean-Centering and the Covariance Matrix \\(\\Sigma\\)",
+    "text": "2 1. Mean-Centering and the Covariance Matrix \\(\\Sigma\\)\nLet \\(X \\in \\mathbb{R}^{n \\times d}\\) be our standardized (or mean-centered) data matrix where each column has mean \\(0\\). The sample covariance matrix \\(\\Sigma \\in \\mathbb{R}^{d \\times d}\\) captures both the variance of each feature (diagonal entries) and the linear redundancy between features (off-diagonal entries):\n\\[\\Sigma = \\frac{1}{n - 1} X^T X\\]\nNotice two critical properties of \\(\\Sigma\\): 1. \\(\\Sigma\\) is a square \\(d \\times d\\) matrix (\\(4 \\times 4\\) for Iris and Motor sensors). 2. \\(\\Sigma\\) is real and symmetric (\\(\\Sigma^T = \\Sigma\\)) and positive semi-definite (\\(v^T \\Sigma v \\ge 0\\)).",
+    "crumbs": [
+      "Overview & Schedule",
+      "Day 1: Foundations & Representation (4.5 Hrs)",
+      "Day 1, Session 2: Mathematical Foundations — Linear Algebra, SVD & PCA"
+    ]
+  },
+  {
+    "objectID": "module2-linear-algebra.html#spectral-decomposition-eigendecomposition",
+    "href": "module2-linear-algebra.html#spectral-decomposition-eigendecomposition",
+    "title": "Day 1, Session 2: Mathematical Foundations — Linear Algebra, SVD & PCA",
+    "section": "3 2. Spectral Decomposition (Eigendecomposition)",
+    "text": "3 2. Spectral Decomposition (Eigendecomposition)\nBy the Spectral Theorem, any real symmetric matrix \\(\\Sigma \\in \\mathbb{R}^{d \\times d}\\) can be factored into an orthogonal matrix of eigenvectors \\(Q\\) and a diagonal matrix of real eigenvalues \\(\\Lambda\\):\n\\[\\Sigma = Q \\Lambda Q^T = \\sum_{i=1}^d \\lambda_i q_i q_i^T\\]\nwhere: * \\(q_1, q_2, \\dots, q_d\\) are mutually orthonormal eigenvectors (\\(q_i^T q_j = \\delta_{ij}\\), so \\(Q^T Q = I\\)). Geometrically, these define the principal axes of variance of the data cloud! * \\(\\lambda_1 \\ge \\lambda_2 \\ge \\dots \\ge \\lambda_d \\ge 0\\) are the corresponding eigenvalues, which measure the exact variance of the data projected onto each axis \\(q_i\\).",
+    "crumbs": [
+      "Overview & Schedule",
+      "Day 1: Foundations & Representation (4.5 Hrs)",
+      "Day 1, Session 2: Mathematical Foundations — Linear Algebra, SVD & PCA"
+    ]
+  },
+  {
+    "objectID": "module2-linear-algebra.html#singular-value-decomposition-svd",
+    "href": "module2-linear-algebra.html#singular-value-decomposition-svd",
+    "title": "Day 1, Session 2: Mathematical Foundations — Linear Algebra, SVD & PCA",
+    "section": "4 3. Singular Value Decomposition (SVD)",
+    "text": "4 3. Singular Value Decomposition (SVD)\nWhat if we don’t even want to form \\(X^T X\\) (which can lose numerical precision)? Singular Value Decomposition (SVD) factors any rectangular matrix \\(X \\in \\mathbb{R}^{n \\times d}\\) directly:\n\\[X = U S V^T\\]\n\n\\(U \\in \\mathbb{R}^{n \\times n}\\): Orthogonal matrix of left singular vectors (columns are eigenvectors of \\(X X^T\\)).\n\\(S \\in \\mathbb{R}^{n \\times d}\\): Diagonal matrix of non-negative singular values \\(\\sigma_1 \\ge \\sigma_2 \\ge \\dots \\ge \\sigma_d \\ge 0\\).\n\\(V \\in \\mathbb{R}^{d \\times d}\\): Orthogonal matrix of right singular vectors (columns are eigenvectors of \\(X^T X\\)).\n\n\nThe Golden Bridge Connecting SVD, Spectral Decomposition, and PCA: Substitute \\(X = U S V^T\\) into the covariance formula \\(\\Sigma = \\frac{1}{n-1} X^T X\\): \\[\\Sigma = \\frac{1}{n-1} (U S V^T)^T (U S V^T) = \\frac{1}{n-1} V S^T U^T U S V^T = V \\left(\\frac{S^2}{n-1}\\right) V^T\\] Comparing this with \\(\\Sigma = Q \\Lambda Q^T\\), we see immediately that: 1. The right singular vectors \\(V\\) are identical to the spectral eigenvectors \\(Q\\) (the Principal Components!). 2. The eigenvalues \\(\\lambda_i\\) of the covariance matrix are directly related to the singular values \\(\\sigma_i\\): \\[\\lambda_i = \\frac{\\sigma_i^2}{n - 1}\\]\n\nLet’s verify this mathematical identity in Python on the Iris dataset:",
+    "crumbs": [
+      "Overview & Schedule",
+      "Day 1: Foundations & Representation (4.5 Hrs)",
+      "Day 1, Session 2: Mathematical Foundations — Linear Algebra, SVD & PCA"
+    ]
+  },
+  {
+    "objectID": "module2-linear-algebra.html#dimensionality-reduction-via-principal-component-analysis-pca",
+    "href": "module2-linear-algebra.html#dimensionality-reduction-via-principal-component-analysis-pca",
+    "title": "Day 1, Session 2: Mathematical Foundations — Linear Algebra, SVD & PCA",
+    "section": "5 4. Dimensionality Reduction via Principal Component Analysis (PCA)",
+    "text": "5 4. Dimensionality Reduction via Principal Component Analysis (PCA)\nTo project our \\(d\\)-dimensional data matrix \\(X \\in \\mathbb{R}^{n \\times d}\\) down to a \\(k\\)-dimensional subspace (\\(k &lt; d\\), e.g., \\(k=2\\)), we simply multiply \\(X\\) by the first \\(k\\) columns of \\(V\\) (let’s call this \\(W_k = V_{:, 1:k} \\in \\mathbb{R}^{d \\times k}\\)):\n\\[Z = X W_k \\in \\mathbb{R}^{n \\times k}\\]\nAnd we can reconstruct the low-rank approximation \\(\\hat{X}_k \\in \\mathbb{R}^{n \\times d}\\) back in the original 4D space via:\n\\[\\hat{X}_k = Z W_k^T = \\sum_{i=1}^k \\sigma_i u_i v_i^T\\]\nBy the Eckart-Young-Mirsky Theorem, \\(\\hat{X}_k\\) is the best rank-\\(k\\) approximation to \\(X\\) in Frobenius norm! Let’s visualize the 2D PCA projection of Iris alongside the Scree Plot (cumulative variance explained):",
+    "crumbs": [
+      "Overview & Schedule",
+      "Day 1: Foundations & Representation (4.5 Hrs)",
+      "Day 1, Session 2: Mathematical Foundations — Linear Algebra, SVD & PCA"
+    ]
+  },
+  {
+    "objectID": "module2-linear-algebra.html#engineering-practice-compressing-4d-motor-telemetry-into-a-2d-health-map",
+    "href": "module2-linear-algebra.html#engineering-practice-compressing-4d-motor-telemetry-into-a-2d-health-map",
+    "title": "Day 1, Session 2: Mathematical Foundations — Linear Algebra, SVD & PCA",
+    "section": "6 5. Engineering Practice: Compressing 4D Motor Telemetry into a 2D Health Map",
+    "text": "6 5. Engineering Practice: Compressing 4D Motor Telemetry into a 2D Health Map\n\n\n\n\n\n\nHands-On Engineering Challenge (Module 2 Application)\n\n\n\nIn industrial IoT monitoring, operators want a single 2D Control Room Health Map that summarizes all 4 correlated sensors (vibration, temperature, current, acoustic) while preserving \\(&gt;90\\%\\) of the signal variance.\n\nRun the code below to compute the SVD and PCA of the 4-channel Motor Sensor Matrix.\nInspect the eigenvector loadings \\(V_{:, 1:2}\\): which physical sensors dominate PC1 vs PC2?\nExperiment: Change k = 1, 2, or 3 in the low-rank SVD reconstruction \\(\\hat{X}_k = U_{:,:k} S_{:k,:k} V_{:,:k}^T\\) and observe how fast the reconstruction error drops!",
+    "crumbs": [
+      "Overview & Schedule",
+      "Day 1: Foundations & Representation (4.5 Hrs)",
+      "Day 1, Session 2: Mathematical Foundations — Linear Algebra, SVD & PCA"
+    ]
+  },
+  {
+    "objectID": "module4-datascience.html",
+    "href": "module4-datascience.html",
+    "title": "Day 1, Session 1: The Data Science Process & Exploration",
+    "section": "",
+    "text": "Before we decompose matrices (Module 2), derive Maximum Likelihood Estimators (Module 3), or train Deep Neural Networks (Module 1), an AI engineer must understand how raw observations become a structured data matrix \\(X \\in \\mathbb{R}^{n \\times d}\\) and how the Data Science Process guides every modeling decision.\n\n\n\n\n\n\nGNEST305 Module 4 Syllabus Checklist\n\n\n\n\nBenefits of Data Science & role of Statistics and Machine Learning in Data Science\nThe 6-Step Data Science Process & Modelling Process (Text-5: Cielen & Meysman)\nApplications of ML in Data Science & Big Data vs. Data Science (Volume, Velocity, Variety, Veracity)\nVisualization & Implementation Tools: Python (pandas, matplotlib, scikit-learn), R, Tableau, PowerBI, MATLAB",
+    "crumbs": [
+      "Overview & Schedule",
+      "Day 1: Foundations & Representation (4.5 Hrs)",
+      "Day 1, Session 1: The Data Science Process & Exploration"
+    ]
+  },
+  {
+    "objectID": "module4-datascience.html#why-start-with-module-4",
+    "href": "module4-datascience.html#why-start-with-module-4",
+    "title": "Day 1, Session 1: The Data Science Process & Exploration",
+    "section": "",
+    "text": "Before we decompose matrices (Module 2), derive Maximum Likelihood Estimators (Module 3), or train Deep Neural Networks (Module 1), an AI engineer must understand how raw observations become a structured data matrix \\(X \\in \\mathbb{R}^{n \\times d}\\) and how the Data Science Process guides every modeling decision.\n\n\n\n\n\n\nGNEST305 Module 4 Syllabus Checklist\n\n\n\n\nBenefits of Data Science & role of Statistics and Machine Learning in Data Science\nThe 6-Step Data Science Process & Modelling Process (Text-5: Cielen & Meysman)\nApplications of ML in Data Science & Big Data vs. Data Science (Volume, Velocity, Variety, Veracity)\nVisualization & Implementation Tools: Python (pandas, matplotlib, scikit-learn), R, Tableau, PowerBI, MATLAB",
+    "crumbs": [
+      "Overview & Schedule",
+      "Day 1: Foundations & Representation (4.5 Hrs)",
+      "Day 1, Session 1: The Data Science Process & Exploration"
+    ]
+  },
+  {
+    "objectID": "module4-datascience.html#the-6-step-data-science-process-cielen-meysman",
+    "href": "module4-datascience.html#the-6-step-data-science-process-cielen-meysman",
+    "title": "Day 1, Session 1: The Data Science Process & Exploration",
+    "section": "2 1. The 6-Step Data Science Process (Cielen & Meysman)",
+    "text": "2 1. The 6-Step Data Science Process (Cielen & Meysman)\nIn Introducing Data Science (Text-5), the lifecycle of any data science or engineering AI project follows six iterative stages:\n\nSetting the Research Goal: Define the problem, context, deliverable, and success metrics (e.g., Can we classify flower species or detect motor bearing wear with \\(&gt;95\\%\\) accuracy?).\nRetrieving Data: Collect internal/external data from databases, CSV logs, or IoT sensors.\nData Preparation (Cleansing, Transforming, Combining): Handle missing values (NaN), outliers, unit mismatches, and feature scaling (\\(z\\)-score standardization).\nData Exploration (EDA): Compute statistical summaries, plot histograms, boxplots, scatter matrices, and correlation heatmaps to spot patterns and anomalies.\nData Modeling (Statistics + Machine Learning): Select features, split into Training and Testing sets, fit statistical/ML models, and evaluate generalization error.\nPresentation & Automation: Communicate findings via dashboards (Tableau, PowerBI, Quarto) or deploy automated real-time inference pipelines.\n\n\n2.1 How Statistics, Machine Learning, and Big Data Fit Together\n\n\n\n\n\n\n\n\n\nPillar\nPrimary Question\nMathematical Focus\nRole in GNEST305\n\n\n\n\nStatistics\nWhat can we infer about the population, and how certain are we?\nProbability distributions, MLE, hypothesis testing, OLS regression\nModule 3\n\n\nLinear Algebra\nHow do we represent and compress high-dimensional spaces?\nVector spaces, eigenvalues, SVD, PCA\nModule 2\n\n\nMachine Learning\nHow do we learn generalizable decision boundaries from examples?\nLoss minimization, clustering, logistic regression, neural networks\nModule 1\n\n\nBig Data Engineering\nHow do we process data when \\(n\\) or \\(d\\) exceeds single-machine memory?\nDistributed storage/compute (Hadoop, Spark, streaming) across the 4 Vs (Volume, Velocity, Variety, Veracity)\nModule 4",
+    "crumbs": [
+      "Overview & Schedule",
+      "Day 1: Foundations & Representation (4.5 Hrs)",
+      "Day 1, Session 1: The Data Science Process & Exploration"
+    ]
+  },
+  {
+    "objectID": "module4-datascience.html#primary-thread-exploring-preparing-the-iris-data-matrix",
+    "href": "module4-datascience.html#primary-thread-exploring-preparing-the-iris-data-matrix",
+    "title": "Day 1, Session 1: The Data Science Process & Exploration",
+    "section": "3 2. Primary Thread: Exploring & Preparing the Iris Data Matrix",
+    "text": "3 2. Primary Thread: Exploring & Preparing the Iris Data Matrix\nEvery dataset in AI starts as a feature matrix \\(X \\in \\mathbb{R}^{n \\times d}\\) and (for supervised tasks) a target vector \\(y \\in \\mathbb{R}^n\\):\n\\[X = \\begin{bmatrix} x_{11} & x_{12} & \\dots & x_{1d} \\\\ x_{21} & x_{22} & \\dots & x_{2d} \\\\ \\vdots & \\vdots & \\ddots & \\vdots \\\\ x_{n1} & x_{n2} & \\dots & x_{nd} \\end{bmatrix}, \\quad y = \\begin{bmatrix} y_1 \\\\ y_2 \\\\ \\vdots \\\\ y_n \\end{bmatrix}\\]\nFor the Iris dataset, \\(n = 150\\) flowers and \\(d = 4\\) continuous morphological measurements (in cm). Notice how features have different scales and variances—which is why Step 3 (Data Preparation) requires Standardization (\\(z\\)-score scaling):\n\\[z_{ij} = \\frac{x_{ij} - \\mu_j}{\\sigma_j}\\]\nRun the interactive block below to execute Steps 2, 3, and 4 of the Data Science Process on Iris:",
+    "crumbs": [
+      "Overview & Schedule",
+      "Day 1: Foundations & Representation (4.5 Hrs)",
+      "Day 1, Session 1: The Data Science Process & Exploration"
+    ]
+  },
+  {
+    "objectID": "module4-datascience.html#the-data-science-modelling-process-traintest-split-baseline",
+    "href": "module4-datascience.html#the-data-science-modelling-process-traintest-split-baseline",
+    "title": "Day 1, Session 1: The Data Science Process & Exploration",
+    "section": "4 3. The Data Science Modelling Process: Train/Test Split & Baseline",
+    "text": "4 3. The Data Science Modelling Process: Train/Test Split & Baseline\nIn Step 5 (Data Modeling), we never evaluate a model on the exact same data used to fit its parameters—doing so causes overfitting (memorizing noise). Instead, we split \\((X, y)\\) into \\((X_{\\text{train}}, y_{\\text{train}})\\) and \\((X_{\\text{test}}, y_{\\text{test}})\\).\nLet’s build a complete end-to-end Data Science Baseline Pipeline on Iris using a simple Decision Tree / Nearest Centroid baseline to demonstrate the modeling workflow before diving into the deep math in Sessions 2–4:",
+    "crumbs": [
+      "Overview & Schedule",
+      "Day 1: Foundations & Representation (4.5 Hrs)",
+      "Day 1, Session 1: The Data Science Process & Exploration"
+    ]
+  },
+  {
+    "objectID": "module4-datascience.html#engineering-practice-predictive-maintenance-sensor-pipeline",
+    "href": "module4-datascience.html#engineering-practice-predictive-maintenance-sensor-pipeline",
+    "title": "Day 1, Session 1: The Data Science Process & Exploration",
+    "section": "5 4. Engineering Practice: Predictive Maintenance Sensor Pipeline",
+    "text": "5 4. Engineering Practice: Predictive Maintenance Sensor Pipeline\n\n\n\n\n\n\nHands-On Engineering Challenge (Module 4 Application)\n\n\n\nAn industrial plant logs 4 telemetry streams from 150 induction motors: vibration_mm_s (mm/s RMS), temp_c (°C), current_amp (Amps), and acoustic_db (dB). However, real sensor logs contain missing values (NaN) and wildly different units (2–8 mm/s vs 50–100 °C).\n\nRun the code below to impute missing sensor readings using the median, standardize the 4 sensor channels, and visualize the Vibration vs. Temperature operating regimes (Normal, Bearing_Wear, Overheating_Fault).\nExperiment: Change test_size=0.30 or try classifying using only the first 2 sensors (X_motor_scaled[:, :2]) to see how sensor selection impacts diagnostic accuracy!",
+    "crumbs": [
+      "Overview & Schedule",
+      "Day 1: Foundations & Representation (4.5 Hrs)",
+      "Day 1, Session 1: The Data Science Process & Exploration"
+    ]
+  }
+]
