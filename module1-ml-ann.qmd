@@ -174,6 +174,23 @@ plt.tight_layout()
 plt.show()
 ```
 
+
+### Linear regression lab 
+
+[Link to linear regression worksheet](https://colab.research.google.com/drive/19uOnzz4RDIbYo5uWrzQCLa1NWrNzmrJ3?usp=sharing)
+
+### Logistic regression lab
+
+[Link to Logistic regression worksheet](https://colab.research.google.com/drive/1M-VamLi6RXknEuW8BN-vELdoqmbenwgu?usp=sharing)
+
+### K-means clustering lab
+
+[Link to K-means clustering worksheet](https://colab.research.google.com/drive/1qtzkT4VfcmK5J4uUH8ACUYWhGwIJCMn9?usp=sharing)
+
+### Advanced dimensionality reduction (Eigen Face)
+
+[Link to eigenface worsheet](https://colab.research.google.com/drive/1Ajh66HnadRcE8fSL3LT2sSBcDRVHC8MS?usp=sharing)
+
 ---
 
 ## 5. Engineering Practice: Deep MLP & K-Means for Motor Predictive Maintenance
